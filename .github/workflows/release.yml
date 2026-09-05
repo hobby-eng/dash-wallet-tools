@@ -1,0 +1,133 @@
+name: Build and publish Dash Community release
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Immutable multi-chain-wallet-tools commit or tag
+        required: true
+        type: string
+      release_tag:
+        description: Release tag matching the canonical package version
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: dash-community-release-${{ inputs.release_tag }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - name: Check out the distribution repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check out the canonical source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: hobby-eng/multi-chain-wallet-tools
+          ref: ${{ inputs.source_ref }}
+          path: source
+          persist-credentials: false
+
+      - name: Validate release identity
+        id: source
+        shell: bash
+        run: |
+          set -euo pipefail
+          source_sha=$(git -C source rev-parse HEAD)
+          if [[ ! "$source_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Canonical source did not resolve to a full commit." >&2
+            exit 1
+          fi
+          expected_tag="v$(jq --raw-output '.version' source/package.json)"
+          if [[ "${{ inputs.release_tag }}" != "$expected_tag" ]]; then
+            echo "Release tag ${{ inputs.release_tag }} does not match canonical version $expected_tag." >&2
+            exit 1
+          fi
+          if [[ ! "${{ inputs.release_tag }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Release tag must use semantic vX.Y.Z form." >&2
+            exit 1
+          fi
+          echo "sha=$source_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Build and verify in the canonical container
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd source
+          ./tooling/build-reproducible.sh
+
+      - name: Select and verify the Dash-only release bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir release-assets
+          cp source/dist/dash-community/release/* release-assets/
+          actual=$(find release-assets -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort)
+          expected=$(printf '%s\n' \
+            Dash_Community_Activity_Viewer.html \
+            Dash_Community_Activity_Viewer.html.sha256 \
+            Dash_Community_Discovery_Scanner.html \
+            Dash_Community_Discovery_Scanner.html.sha256 \
+            Dash_Community_Key_Derivation_Tool.html \
+            Dash_Community_Key_Derivation_Tool.html.sha256 \
+            LICENSE \
+            SHA256SUMS | LC_ALL=C sort)
+          if [[ "$actual" != "$expected" ]]; then
+            echo "Unexpected Dash Community release asset set:" >&2
+            printf '%s\n' "$actual" >&2
+            exit 1
+          fi
+          (cd release-assets && sha256sum -c SHA256SUMS)
+          if find release-assets -maxdepth 1 -type f -name 'Wallet_*' | grep -q .; then
+            echo "Multi-Chain artifact found in Dash Community release." >&2
+            exit 1
+          fi
+
+      - name: Generate build-provenance attestations
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4.2.2
+        with:
+          subject-path: release-assets/*
+
+      - name: Publish the verified Dash Community release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ inputs.release_tag }}
+          SOURCE_REF: ${{ inputs.source_ref }}
+          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+        run: |
+          set -euo pipefail
+          cat > release-notes.md <<EOF
+          # Dash Community Wallet Tools ${RELEASE_TAG}
+
+          Dash-only standalone release containing the Key Derivation Tool, Activity Viewer, and Discovery Scanner.
+
+          Canonical source: [hobby-eng/multi-chain-wallet-tools](https://github.com/hobby-eng/multi-chain-wallet-tools)
+
+          Source ref: \`${SOURCE_REF}\`
+
+          Source commit: \`${SOURCE_SHA}\`
+
+          Download all files into one directory and verify them with:
+
+          \`\`\`bash
+          sha256sum -c SHA256SUMS
+          \`\`\`
+          EOF
+          gh release create "$RELEASE_TAG" release-assets/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --notes-file release-notes.md \
+            --latest \
+            --title "Dash Community Wallet Tools $RELEASE_TAG"
