@@ -4,7 +4,7 @@ Independent Dash-focused distribution of three standalone browser utilities:
 
 - **Dash Community Key Derivation Tool** — offline derivation for Dash Core, Platform payments, Platform Identity keys, and Orchard.
 - **Dash Community Activity Viewer** — read-only Core, Platform, Identity, and Orchard inspection.
-- **Dash Community Discovery Scanner** — local mnemonic derivation with an isolated, network-disabled secret vault and a separate read-only network worker.
+- **Dash Community Discovery Scanner** — seed-phrase and watch-only public-key discovery with an isolated, network-disabled secret vault and a separate read-only network worker.
 
 Each release contains self-contained HTML files intended to be downloaded and opened directly with `file://`. No installation or hosted web application is required.
 
@@ -16,7 +16,7 @@ Download all release assets into one directory, then run:
 sha256sum -c SHA256SUMS
 ```
 
-The Key Derivation Tool is intended for offline use. The Activity Viewer is network-enabled but rejects private wallet material. The Discovery Scanner necessarily accepts a recovery phrase while online; use a clean device and move recovered funds to a new wallet. Read [SECURITY.md](SECURITY.md) before using valuable wallet data.
+The Key Derivation Tool is intended for offline use. The Activity Viewer is network-enabled but rejects private wallet material. The Discovery Scanner has separate Seed phrase and Public keys modes, each with Single and Batch input. Seed-phrase discovery necessarily accepts secret material while online, confines it to the network-disabled vault, and sends only derived public lookups to the network worker. Use a clean device and move recovered funds to a new wallet. Read [SECURITY.md](SECURITY.md) before using valuable wallet data.
 
 ## Provenance
 
