@@ -72,7 +72,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir release-assets
-          cp source/dist/dash-community/release/* release-assets/
+          cp source/dist/dash-community-edition/release/* release-assets/
           actual=$(find release-assets -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort)
           expected=$(printf '%s\n' \
             Dash_Community_Activity_Viewer.html \
