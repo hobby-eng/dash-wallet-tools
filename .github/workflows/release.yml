@@ -44,6 +44,10 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          if [[ "${{ inputs.source_ref }}" != "${{ inputs.release_tag }}" ]]; then
+            echo "source_ref and release_tag must name the same canonical tag." >&2
+            exit 1
+          fi
           source_sha=$(git -C source rev-parse HEAD)
           if [[ ! "$source_sha" =~ ^[0-9a-f]{40}$ ]]; then
             echo "Canonical source did not resolve to a full commit." >&2
@@ -81,8 +85,11 @@ jobs:
             Dash_Community_Discovery_Scanner.html.sha256 \
             Dash_Community_Key_Derivation_Tool.html \
             Dash_Community_Key_Derivation_Tool.html.sha256 \
+            Dash_Community_PSBT_Multisig_Inspector.html \
+            Dash_Community_PSBT_Multisig_Inspector.html.sha256 \
             LICENSE \
-            SHA256SUMS | LC_ALL=C sort)
+            SHA256SUMS \
+            verification-record.json | LC_ALL=C sort)
           if [[ "$actual" != "$expected" ]]; then
             echo "Unexpected Dash Community release asset set:" >&2
             printf '%s\n' "$actual" >&2
@@ -108,22 +115,19 @@ jobs:
           SOURCE_SHA: ${{ steps.source.outputs.sha }}
         run: |
           set -euo pipefail
-          cat > release-notes.md <<EOF
-          # Dash Community Wallet Tools ${RELEASE_TAG}
+          notes_file="source/docs/releases/${RELEASE_TAG}-dash-community.md"
+          if [[ ! -f "$notes_file" ]]; then
+            echo "Missing curated Dash Community release notes: $notes_file" >&2
+            exit 1
+          fi
+          cp "$notes_file" release-notes.md
+          cat >> release-notes.md <<EOF
 
-          Dash-only standalone release containing the Key Derivation Tool, Activity Viewer, and Discovery Scanner.
+          ---
 
-          Canonical source: [hobby-eng/multi-chain-wallet-tools](https://github.com/hobby-eng/multi-chain-wallet-tools)
+          Canonical source ref: \`${SOURCE_REF}\`
 
-          Source ref: \`${SOURCE_REF}\`
-
-          Source commit: \`${SOURCE_SHA}\`
-
-          Download all files into one directory and verify them with:
-
-          \`\`\`bash
-          sha256sum -c SHA256SUMS
-          \`\`\`
+          Canonical source commit: \`${SOURCE_SHA}\`
           EOF
           gh release create "$RELEASE_TAG" release-assets/* \
             --repo "$GITHUB_REPOSITORY" \
