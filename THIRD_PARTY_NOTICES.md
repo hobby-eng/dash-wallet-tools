@@ -2,7 +2,7 @@
 
 Initial provenance review: 2026-09-08, using exact package manifests, `pnpm-lock.yaml`, `Cargo.lock`, and locked Cargo metadata. Direct JavaScript versions were reconciled with the current manifest again on 2026-09-12; this does not renew the upstream source or license review. This is dependency provenance information, not legal advice. The upstream license files remain authoritative.
 
-Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/c7ed1bc58180914362eda53165b4c267f2c1b961/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
+Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/3eb0494666a207a85cb2e56a612dbebf752817f7/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
 
 ## JavaScript production dependencies
 
