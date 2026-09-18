@@ -1,0 +1,60 @@
+name: Sync canonical documentation
+
+on:
+  schedule:
+    - cron: '19 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-documentation.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: canonical-documentation-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out the distribution branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+
+      - name: Check out current canonical source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: hobby-eng/multi-chain-wallet-tools
+          ref: main
+          path: canonical-source
+          persist-credentials: false
+
+      - name: Install the pinned Node runtime
+        uses: pnpm/setup@4700d737c3d7a2e7199f3d42a920f0bf7f34e411 # v2.0.1
+        with:
+          version: 11.25.0
+          runtime: node@24.20.0
+          cache: false
+
+      - name: Generate distribution documentation
+        run: node canonical-source/tooling/sync-dash-distribution-docs.mjs --output .
+
+      - name: Commit changed documents
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add README.md SECURITY.md ATTRIBUTION.md THIRD_PARTY_NOTICES.md LICENSE documentation-source.json
+          if git diff --cached --quiet; then
+            echo "Documentation already matches canonical source."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Sync documentation from canonical source'
+          git pull --rebase origin main
+          git push origin HEAD:main
