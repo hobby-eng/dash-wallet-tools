@@ -45,12 +45,27 @@ jobs:
         run: |
           set -euo pipefail
           echo 'publish=false' >> "$GITHUB_OUTPUT"
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases" > distribution-releases.json
           if [[ "$EVENT_NAME" == 'workflow_dispatch' && ( -n "$MANUAL_SOURCE_REF" || -n "$MANUAL_RELEASE_TAG" ) ]]; then
             source_ref="$MANUAL_SOURCE_REF"
             release_tag="$MANUAL_RELEASE_TAG"
           else
-            gh api repos/hobby-eng/multi-chain-wallet-tools/releases/latest > canonical-release.json
-            release_tag=$(jq -er 'select(.draft == false and .prerelease == false) | .tag_name' canonical-release.json)
+            # Automatic distribution starts with the first Dash repository release, v0.1.2.
+            gh api --paginate --slurp repos/hobby-eng/multi-chain-wallet-tools/releases > canonical-releases.json
+            release_tag=$(jq -r --slurpfile distribution distribution-releases.json '
+              ($distribution[0] | flatten | map(.tag_name)) as $existing |
+              [ .[][] |
+                select(.draft == false and .prerelease == false) |
+                select(.tag_name | test("^v[0-9]+\\.[0-9]+\\.[0-9]+$")) |
+                . as $release |
+                select(($existing | index($release.tag_name)) == null) |
+                select((.tag_name | ltrimstr("v") | split(".") | map(tonumber)) >= [0,1,2])
+              ] | sort_by(.published_at) | .[0].tag_name // empty
+            ' canonical-releases.json)
+            if [[ -z "$release_tag" ]]; then
+              echo 'All published canonical versions with Dash support are already distributed.'
+              exit 0
+            fi
             source_ref="$release_tag"
           fi
           if [[ "$source_ref" != "$release_tag" || ! "$release_tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
@@ -62,7 +77,6 @@ jobs:
             echo 'Only published stable canonical releases may be distributed.' >&2
             exit 1
           fi
-          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases" > distribution-releases.json
           if jq -e --arg tag "$release_tag" 'any(.[][]; .tag_name == $tag)' distribution-releases.json >/dev/null; then
             echo "Dash release $release_tag already exists; nothing to publish."
             exit 0
