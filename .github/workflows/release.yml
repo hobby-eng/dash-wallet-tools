@@ -1,15 +1,17 @@
 name: Build and publish Dash Community release
 
 on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
   workflow_dispatch:
     inputs:
       source_ref:
         description: Immutable multi-chain-wallet-tools commit or tag
-        required: true
+        required: false
         type: string
       release_tag:
         description: Release tag matching the canonical package version
-        required: true
+        required: false
         type: string
 
 permissions:
@@ -18,11 +20,60 @@ permissions:
   attestations: write
 
 concurrency:
-  group: dash-community-release-${{ inputs.release_tag }}
+  group: dash-community-release
   cancel-in-progress: false
 
 jobs:
+  resolve:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    outputs:
+      publish: ${{ steps.release.outputs.publish }}
+      source_ref: ${{ steps.release.outputs.source_ref }}
+      release_tag: ${{ steps.release.outputs.release_tag }}
+    steps:
+      - name: Find a published canonical release not yet distributed
+        id: release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_NAME: ${{ github.event_name }}
+          MANUAL_SOURCE_REF: ${{ inputs.source_ref }}
+          MANUAL_RELEASE_TAG: ${{ inputs.release_tag }}
+        run: |
+          set -euo pipefail
+          echo 'publish=false' >> "$GITHUB_OUTPUT"
+          if [[ "$EVENT_NAME" == 'workflow_dispatch' && ( -n "$MANUAL_SOURCE_REF" || -n "$MANUAL_RELEASE_TAG" ) ]]; then
+            source_ref="$MANUAL_SOURCE_REF"
+            release_tag="$MANUAL_RELEASE_TAG"
+          else
+            gh api repos/hobby-eng/multi-chain-wallet-tools/releases/latest > canonical-release.json
+            release_tag=$(jq -er 'select(.draft == false and .prerelease == false) | .tag_name' canonical-release.json)
+            source_ref="$release_tag"
+          fi
+          if [[ "$source_ref" != "$release_tag" || ! "$release_tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo 'Source and release must name the same semantic version tag.' >&2
+            exit 1
+          fi
+          gh api "repos/hobby-eng/multi-chain-wallet-tools/releases/tags/$release_tag" > selected-release.json
+          if ! jq -e '(.draft == false) and (.prerelease == false)' selected-release.json >/dev/null; then
+            echo 'Only published stable canonical releases may be distributed.' >&2
+            exit 1
+          fi
+          gh api --paginate --slurp "repos/$GITHUB_REPOSITORY/releases" > distribution-releases.json
+          if jq -e --arg tag "$release_tag" 'any(.[][]; .tag_name == $tag)' distribution-releases.json >/dev/null; then
+            echo "Dash release $release_tag already exists; nothing to publish."
+            exit 0
+          fi
+          echo "source_ref=$source_ref" >> "$GITHUB_OUTPUT"
+          echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
+          echo 'publish=true' >> "$GITHUB_OUTPUT"
+
   release:
+    needs: resolve
+    if: needs.resolve.outputs.publish == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
@@ -35,16 +86,19 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: hobby-eng/multi-chain-wallet-tools
-          ref: ${{ inputs.source_ref }}
+          ref: ${{ needs.resolve.outputs.source_ref }}
           path: source
           persist-credentials: false
 
       - name: Validate release identity
         id: source
         shell: bash
+        env:
+          SOURCE_REF: ${{ needs.resolve.outputs.source_ref }}
+          RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
         run: |
           set -euo pipefail
-          if [[ "${{ inputs.source_ref }}" != "${{ inputs.release_tag }}" ]]; then
+          if [[ "$SOURCE_REF" != "$RELEASE_TAG" ]]; then
             echo "source_ref and release_tag must name the same canonical tag." >&2
             exit 1
           fi
@@ -54,11 +108,11 @@ jobs:
             exit 1
           fi
           expected_tag="v$(jq --raw-output '.version' source/package.json)"
-          if [[ "${{ inputs.release_tag }}" != "$expected_tag" ]]; then
-            echo "Release tag ${{ inputs.release_tag }} does not match canonical version $expected_tag." >&2
+          if [[ "$RELEASE_TAG" != "$expected_tag" ]]; then
+            echo "Release tag $RELEASE_TAG does not match canonical version $expected_tag." >&2
             exit 1
           fi
-          if [[ ! "${{ inputs.release_tag }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
             echo "Release tag must use semantic vX.Y.Z form." >&2
             exit 1
           fi
@@ -77,24 +131,11 @@ jobs:
           set -euo pipefail
           mkdir release-assets
           cp source/dist/dash-community-edition/release/* release-assets/
+          node source/tooling/verify-github-release-assets.mjs --profile dash-community
           actual=$(find release-assets -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort)
-          expected=$(printf '%s\n' \
-            Dash_Community_Activity_Viewer.html \
-            Dash_Community_Activity_Viewer.html.sha256 \
-            Dash_Community_Discovery_Scanner.html \
-            Dash_Community_Discovery_Scanner.html.sha256 \
-            Dash_Community_Key_Derivation_Tool.html \
-            Dash_Community_Key_Derivation_Tool.html.sha256 \
-            Dash_Community_PSBT_Multisig_Inspector.html \
-            Dash_Community_PSBT_Multisig_Inspector.html.sha256 \
-            ATTRIBUTION.md \
-            LICENSE \
-            SHA256SUMS \
-            THIRD_PARTY_NOTICES.md \
-            verification-record.json | LC_ALL=C sort)
+          expected=$(find source/dist/dash-community-edition/release -maxdepth 1 -type f -printf '%f\n' | LC_ALL=C sort)
           if [[ "$actual" != "$expected" ]]; then
-            echo "Unexpected Dash Community release asset set:" >&2
-            printf '%s\n' "$actual" >&2
+            echo 'Copied Dash release assets differ from the canonically verified bundle.' >&2
             exit 1
           fi
           (cd release-assets && sha256sum -c SHA256SUMS)
@@ -112,8 +153,8 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
-          RELEASE_TAG: ${{ inputs.release_tag }}
-          SOURCE_REF: ${{ inputs.source_ref }}
+          RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
+          SOURCE_REF: ${{ needs.resolve.outputs.source_ref }}
           SOURCE_SHA: ${{ steps.source.outputs.sha }}
         run: |
           set -euo pipefail
