@@ -1,13 +1,31 @@
-# Attribution
+# Upstream attribution
 
-Dash Community Wallet Tools is built from the canonical open-source project [hobby-eng/multi-chain-wallet-tools](https://github.com/hobby-eng/multi-chain-wallet-tools).
+These utilities are an independent integration project. They are not an official Dash product, are not maintained by Dash Core Group or the Dash Platform maintainers, and no endorsement by those projects or contributors is implied.
 
-Dash functionality relies on open-source work from the Dash ecosystem, including:
+Original integration code in this repository is released under the [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535/LICENSE), copyright (c) 2026 hobby-eng. That license does not replace or relicense embedded and linked third-party work; each upstream component retains the license identified in its own distribution and in this repository's notices.
 
-- [Dash Platform](https://github.com/dashpay/platform) and its Evo/WASM SDK;
-- the [Dash Orchard fork](https://github.com/dashpay/orchard);
-- the [Dash Core](https://github.com/dashpay/dash) protocol implementation.
+Dash Platform and Dash Orchard functionality relies on open-source work authored and maintained by their respective upstream contributors:
 
-The visual treatment is inspired by the official [Dash BrandBook](https://www.figma.com/design/cCpB1W2IAmoEGXBbGqGsfD/Dash-BrandBook?node-id=219-108&p=f), [Dash Brand Guidelines](https://www.dash.org/brand-guidelines/), and primary [Dash documentation](https://docs.dash.org/en/stable/docs/user/marketing.html).
+- **Dash Platform** — protocol specifications, Evo SDK, WASM SDK, proof-verification and Platform client implementations: [github.com/dashpay/platform](https://github.com/dashpay/platform)
+- **Dash Orchard fork** — Dash-specific Orchard/ZIP-32 cryptographic implementation: [github.com/dashpay/orchard](https://github.com/dashpay/orchard)
+- **Dash Core** — network definitions and the wider Dash protocol implementation: [github.com/dashpay/dash](https://github.com/dashpay/dash)
+- **Dash brand mark and palette** — the official “Dash D Circle” asset and the blue, navy, white, and cool-neutral visual direction from the official [Dash BrandBook](https://www.figma.com/design/cCpB1W2IAmoEGXBbGqGsfD/Dash-BrandBook?node-id=219-108&p=f), [Dash Brand Guidelines](https://www.dash.org/brand-guidelines/), and primary [Dash documentation](https://docs.dash.org/en/stable/docs/user/marketing.html), used under the Creative Commons Attribution 4.0 license (CC BY 4.0). The mark remains the property of its respective owner; use in the Dash-only Community Edition identifies the target ecosystem and does not imply endorsement.
+- **BitcoinerLab Miniscript** — TypeScript Miniscript compiler, safety analyzer, and symbolic satisfier: [github.com/bitcoinerlab/miniscript](https://github.com/bitcoinerlab/miniscript), MIT licensed.
+- **btcutil-js** — Bitcoin utilities and BIP-322 verification backed by btcd/btcutil compiled to WebAssembly: [github.com/guggero/btcutil-js](https://github.com/guggero/btcutil-js), MIT licensed.
+- **Noble Ciphers** — audited JavaScript cryptographic primitives; AES-256-ECB is used only by the BIP38 compatibility layer: [github.com/paulmillr/noble-ciphers](https://github.com/paulmillr/noble-ciphers), MIT licensed.
+- **Scure BTC Signer** — audited Bitcoin, Taproot, PSBT, and BIP-327 MuSig2 primitives used for inspection, derivation and local Bitcoin BIP322 message signing in the Key Derivation Tool: [github.com/paulmillr/scure-btc-signer](https://github.com/paulmillr/scure-btc-signer), MIT licensed.
 
-The official “Dash D Circle” mark is used under CC BY 4.0. Dash and its marks remain the property of their respective owners. Their use identifies the target ecosystem and does not imply endorsement. Original project code is MIT-licensed; bundled dependencies retain their own licenses and notices.
+This repository's code integrates those components for key derivation, activity inspection, wallet discovery, and offline PSBT, Script, descriptor, and multisig-policy inspection. Upstream names identify technical provenance; they do not transfer authorship of upstream code to this project.
+
+Exact pinned versions, commits, package integrity values, transitive dependencies, copyright notices and license identifiers are recorded in [THIRD_PARTY_NOTICES.md](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535/THIRD_PARTY_NOTICES.md), [Dash implementation reference](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535/docs/reference/DASH_IMPLEMENTATION.md), the lockfiles and the Release passport embedded in each standalone artifact.
+
+- **SLIP-39 reference implementation and wordlist** — recovery encoding logic and official vectors adapted from Trezor's MIT-licensed [`python-shamir-mnemonic`](https://github.com/trezor/python-shamir-mnemonic).
+- **Shamir Secret Sharing** — the CKD Raw/Words formats use the pinned MIT OR Apache-2.0 [`sharks`](https://github.com/c0dearm/sharks) Rust implementation.
+- **Codex32 / BIP93** — checksum and GF(32) interpolation use Andrew Poelstra's CC0 [`rust-codex32`](https://github.com/apoelstra/rust-codex32) reference implementation and official BIP93 vectors.
+- **Blockchain Commons SSKR** — grouped secret-sharing and Bytewords/UR transport use the BSD-2-Clause-Patent [`bc-sskr-rust`](https://github.com/BlockchainCommons/bc-sskr-rust) implementation.
+- **Gordian Seed Envelope** — typed envelope encoding, encryption, password/recipient permits, and SSKR permits use the BSD-2-Clause-Patent [`bc-envelope-rust`](https://github.com/BlockchainCommons/bc-envelope-rust) and [`bc-components-rust`](https://github.com/BlockchainCommons/bc-components-rust) modules.
+- **uqr** — offline QR matrix encoding uses the MIT-licensed [`unjs/uqr`](https://github.com/unjs/uqr) module.
+
+- **Ian Coleman BIP39** — the Seed Diagnostic entropy-detail presentation (word indexes, binary groups, and checksum breakdown) is adapted conceptually from the MIT-licensed [`iancoleman/bip39`](https://github.com/iancoleman/bip39); all BIP39 validation and entropy conversion remain delegated to the pinned `@scure/bip39` implementation.
+- **SeedSigner SeedQR** — Standard SeedQR and CompactSeedQR formats and public test vectors: [github.com/SeedSigner/seedsigner](https://github.com/SeedSigner/seedsigner), MIT licensed.
+- **Paul Miller QR** — zero-dependency offline QR image decoder used for local recovery imports: [github.com/paulmillr/qr](https://github.com/paulmillr/qr), MIT OR Apache-2.0 licensed.

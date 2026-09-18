@@ -1,14 +1,18 @@
 # Security
 
-Report suspected vulnerabilities privately through GitHub's security-advisory interface for this repository. Do not include real recovery phrases, private keys, viewing keys, or wallet exports in a report.
+These boundaries describe canonical source version **0.1.5**. Verify the version of the HTML you actually downloaded in its Release passport.
+
+Report vulnerabilities privately through this repository's GitHub security-advisory interface. Never include real recovery phrases, passphrases, private keys, viewing keys, or private wallet exports.
 
 ## Tool boundaries
 
-- **Key Derivation Tool:** intended for a disconnected computer. Verify the checksum before use and independently verify valuable derived addresses.
-- **Activity Viewer:** intentionally connects to public providers and accepts only public addresses, identities, public keys, and Orchard viewing capabilities. Providers can observe IP address, timing, and queried public identifiers.
-- **PSBT & Multisig Inspector:** intended for a disconnected computer. It reviews supported public transaction/policy data and can decrypt BIP38 locally, but does not sign, finalize, fund, query UTXOs, persist data, or broadcast transactions.
-- **Discovery Scanner:** separates Seed phrase and Public keys modes, each with Single and Batch input. Secret derivation and watch-only child derivation run in a sandboxed opaque-origin vault whose CSP blocks network and workers; a separate worker handles fixed read-only network operations using derived public lookups. Public keys and viewing capabilities cannot spend funds but remain privacy-sensitive. A compromised browser, extension, operating system, or modified HTML remains outside that boundary.
+- **Key Derivation Tool:** use a trusted disconnected computer. Private exports, BIP85 child phrases, message-signing keys, backup cards, and restored secrets are sensitive. QR encoding is not encryption. Keep threshold cards separately; including a BIP39 passphrase in an encrypted Envelope places both wallet secrets in that container.
+- **Activity Viewer:** connects to public providers with public/watch-only inputs. Viewing keys cannot spend funds but expose private wallet activity. Providers can observe IP addresses, timing, and queried identifiers.
+- **Discovery Scanner:** supports single and batch seed or public-key scans. Secret derivation runs in an opaque-origin, network-disabled vault. The separate network worker performs read-only queries with validated public data. A compromised host, browser, extension, or modified HTML remains outside this boundary.
+- **PSBT & Multisig Inspector:** works offline. It inspects transaction and policy data, verifies supported public message proofs, and decrypts BIP38 locally. It does not sign, finalize, fund, query UTXOs, or broadcast transactions.
 
-The tools do not construct, sign, or broadcast transactions. Provider data and indexed history have the trust limitations documented in the canonical source repository. This project has not received an independent cryptographic security audit.
+None of the tools broadcasts recovery transactions. Independently verify public addresses, derivation paths, and provider balances in a maintained Dash wallet before recovering funds. The project has extensive automated checks but has not received an independent cryptography-specialist audit.
 
-Verify release files with `sha256sum -c SHA256SUMS` and use a clean browser profile or dedicated device for sensitive recovery work.
+Checksums detect altered downloads; they do not prove cryptographic correctness. Clipboard history, screenshots, browser extensions, swap, and crash dumps remain outside the tools' isolation boundaries. See the [canonical security model](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535/SECURITY_AUDIT.md).
+
+This file is generated from canonical documentation source [d89020a32aa6eb4b76edf634069e83fa9c99c535](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535). Update its template in the canonical repository.

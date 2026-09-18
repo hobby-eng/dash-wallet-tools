@@ -1,45 +1,69 @@
 # Dash Community Wallet Tools
 
-Independent Dash-focused distribution of four standalone browser utilities:
+**Current canonical source version: 0.1.5** (source metadata date: 2026-09-17). This documentation describes the current code, not necessarily the latest published HTML release. Download published files from [Dash releases](https://github.com/hobby-eng/dash-wallet-tools/releases).
 
-- **Dash Community Key Derivation Tool** — offline derivation for Dash Core, Platform Payments, Platform Identity keys, Purpose48 multisig cosigner material, and Orchard.
-- **Dash Community Activity Viewer** — read-only Core, Platform Payment, Identity, and Orchard inspection.
-- **Dash Community Discovery Scanner** — BIP39 candidate and watch-only discovery with an isolated, network-disabled Secret Vault and a separate read-only Network Worker.
-- **Dash Community PSBT & Multisig Inspector** — offline Dash Core PSBT/Script review, public message verification, BIP38 decryption, and test P2SH multisig/watch-only policy construction.
+Dash Community Edition contains four standalone HTML tools for Dash. Open downloaded files in a current browser; no installation or server is required. Application code lives in [multi-chain-wallet-tools](https://github.com/hobby-eng/multi-chain-wallet-tools), and this repository distributes the Dash releases.
 
-Each release contains self-contained HTML files intended to be downloaded and opened directly with `file://`. No installation or hosted web application is required. The visual treatment follows the official Dash BrandBook and Brand Guidelines.
+## Choose a tool
+
+- **Key Derivation Tool:** generate or enter a BIP39 recovery phrase and derive Dash Core addresses, Platform payment addresses, Identity keys, multisig cosigner keys, and Orchard material. Receive and supported change/internal results are separate. BIP85 creates child wallet phrases; private results stay masked until revealed.
+- **Activity Viewer:** check public addresses, identities, and Orchard viewing data with online providers. Single and batch results can be exported as CSV, JSON, or XLSX.
+- **Discovery Scanner:** find supported accounts and used addresses from recovery-phrase candidates or watch-only public keys/descriptors. Both input modes support single and batch scans. Results are grouped by recovery type and can be exported as public recovery reports.
+- **PSBT & Multisig Inspector:** inspect Dash PSBTs, scripts, and descriptors, build supported public multisig/watch-only policies, verify Dash messages, and decrypt supported BIP38 keys locally. It does not sign or broadcast transactions.
+
+## Protect and restore a backup
+
+The Deriver's **Recover & Back Up** tab lets you prepare backups offline:
+
+- **Wallet Matcher** checks the phrase/passphrase candidates you provide against known addresses and selected search ranges.
+- **SLIP-39** creates word cards so, for example, any two of three cards can restore the original BIP39 phrase in this tool. Importing those cards directly into a native SLIP-39 wallet may derive a different wallet.
+- **CKD Shamir** splits the phrase into custom cards shown as words or compact text. Use a compatible CKD decoder to restore them; they are not ordinary wallet phrases or standard SLIP-39 cards.
+- **SSKR** uses Blockchain Commons' standard secret-sharing format, including groups with separate card thresholds. Choose compact UR text for QR transfer or full Bytewords for transcription.
+- **Gordian Seed Envelope** encrypts a backup container. Configure alternative access through a password, recipient private key, or enough SSKR cards. You can also include the BIP39 passphrase, placing both wallet secrets in one backup. A key derived from the same phrase cannot recover the backup if that phrase is lost.
+- **Codex32** stores a checksummed phrase backup or a BIP32 master-seed backup, optionally split into shares. Master-seed mode cannot restore the original words or passphrase. Encoding alone is not encryption.
+- **SeedQR** encodes the phrase as a QR code for offline transfer or printing. It does not encrypt the secret.
+
+Each backup card or record can have a QR code saved as PNG. Restore tabs read QR image files offline, avoiding manual transcription. Treat each QR image like the secret it contains. SLIP-39, CKD Shamir, and standalone SSKR preserve phrase entropy; keep its separate BIP39 passphrase safe too.
+
+The original phrase or a BIP85 child phrase can be used directly in the backup tabs without copying it to the clipboard.
+
+## Modular builds
+
+Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535/docs/BUILD_MODULES.md).
+
+The available modules below are generated from the actual build configuration:
+
+| Tool | Build modules |
+| --- | --- |
+| Dash Community Edition — Wallet Activity Viewer | Base coin support |
+| Dash Community Edition — Wallet Discovery Scanner | `seed-discovery`, `watch-only-discovery`, `wallet-matcher`, `custom-paths` |
+| Dash Community Edition — Wallet Key Derivation Tool | `derive`, `bip85`, `bip38-encrypt`, `message-signing`, `wallet-matcher`, `seedqr`, `slip39`, `shamir`, `codex32`, `sskr`, `gordian-envelope` |
+| Dash Community Edition — PSBT & Multisig Inspector | `psbt-decoder`, `script-decoder`, `descriptor-decoder`, `policy-builder`, `multisig-wallet`, `message-verification`, `bip38-decrypt` |
 
 ## Verify a download
 
-Download all release assets into one directory, then run:
+Download the release files into one directory and run:
 
-```bash
+```sh
 sha256sum -c SHA256SUMS
 ```
 
-Each release also includes `verification-record.json`, which records the canonical source revision, pinned toolchain, performed check groups, and artifact hashes. Tagged release assets receive GitHub build-provenance attestations from this repository. Verify an individual file online with GitHub CLI:
+Release bundles include `verification-record.json`, `LICENSE`, `ATTRIBUTION.md`, and `THIRD_PARTY_NOTICES.md`. Verify GitHub build-provenance attestations with:
 
-```bash
+```sh
 gh attestation verify Dash_Community_Key_Derivation_Tool.html -R hobby-eng/dash-wallet-tools
 ```
 
-## Safety boundaries
+## Safety and provenance
 
-The Key Derivation Tool and PSBT & Multisig Inspector are intended for offline use and block runtime network access. The Activity Viewer is connected but rejects private wallet material. The Discovery Scanner has separate Seed phrase and Public keys modes, each with Single and Batch input. Seed discovery necessarily accepts secret material while online, confines it to the network-disabled vault, and sends only validated public lookups to the network worker.
+Use a trusted offline device for the Deriver and Inspector. The Viewer is connected and accepts public/watch-only inputs. The Scanner is connected, but secret derivation runs in a network-disabled isolated vault and sends public lookups to the network worker. A compromised browser or operating system can still steal secrets. See [SECURITY.md](https://github.com/hobby-eng/dash-wallet-tools/blob/main/SECURITY.md).
 
-The Inspector does not sign, finalize, fund, query UTXOs, or broadcast transactions. None of the four tools creates or broadcasts recovery transactions. Use a clean device for sensitive recovery work, independently verify valuable results in a maintained Dash wallet, and move recovered funds to a new wallet. Read [SECURITY.md](SECURITY.md) before using valuable wallet data.
+This is an independent hobby project, not an official Dash product. Ready-made open-source cryptographic libraries do not establish the safety of their integration. See [attribution](https://github.com/hobby-eng/dash-wallet-tools/blob/main/ATTRIBUTION.md) and [third-party licenses](https://github.com/hobby-eng/dash-wallet-tools/blob/main/THIRD_PARTY_NOTICES.md).
 
-## Provenance
+## Releases and documentation updates
 
-This repository is an independent Dash Community release surface, not a source fork. Application, cryptographic, build, documentation, and verification sources remain canonical in [hobby-eng/multi-chain-wallet-tools](https://github.com/hobby-eng/multi-chain-wallet-tools). Every release identifies the exact canonical source tag and commit and is rebuilt with that source repository's pinned Docker toolchain. The workflow verifies the exact Dash-only bundle before publication; Multi-Chain artifacts are excluded.
+After a stable release is published in the canonical repository, **Build and publish Dash Community release** detects it automatically on its 15-minute schedule. It skips tags already present here, rebuilds the same canonical tag, verifies the Dash-only bundle and checksums, creates attestations, and publishes the Dash release. GitHub scheduling may add delay. Maintainers can also run it manually with `source_ref` and `release_tag` both set to the same canonical tag. No cross-repository write token is required.
 
-This is an independent hobby project and is not endorsed by Dash Core Group or other upstream projects. See [ATTRIBUTION.md](ATTRIBUTION.md).
+**Sync canonical documentation** automatically refreshes these documents every hour from canonical `main`; it can also be run manually. It updates documentation only and does not publish HTML or change existing releases. Edit the templates and notices in the canonical repository, rather than editing generated copies here.
 
-## Releasing
-
-Maintainers run **Build and publish Dash Community release** manually only after the matching canonical Multi-Chain tag workflow succeeds, with:
-
-- `source_ref`: the immutable `v<version>` tag in `hobby-eng/multi-chain-wallet-tools`;
-- `release_tag`: the same `v<version>` value for this repository.
-
-The workflow requires both inputs to match, performs the complete canonical build, verifies the exact Dash-only asset set and checksums, loads the curated Dash release notes from the canonical source tag, generates provenance attestations, and publishes the release.
+Documentation source: [d89020a32aa6eb4b76edf634069e83fa9c99c535](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
