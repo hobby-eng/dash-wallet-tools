@@ -2,7 +2,7 @@
 
 These utilities are an independent integration project. They are not an official Dash product, are not maintained by Dash Core Group or the Dash Platform maintainers, and no endorsement by those projects or contributors is implied.
 
-Original integration code in this repository is released under the [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535/LICENSE), copyright (c) 2026 hobby-eng. That license does not replace or relicense embedded and linked third-party work; each upstream component retains the license identified in its own distribution and in this repository's notices.
+Original integration code in this repository is released under the [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/c7ed1bc58180914362eda53165b4c267f2c1b961/LICENSE), copyright (c) 2026 hobby-eng. That license does not replace or relicense embedded and linked third-party work; each upstream component retains the license identified in its own distribution and in this repository's notices.
 
 Dash Platform and Dash Orchard functionality relies on open-source work authored and maintained by their respective upstream contributors:
 
@@ -17,7 +17,7 @@ Dash Platform and Dash Orchard functionality relies on open-source work authored
 
 This repository's code integrates those components for key derivation, activity inspection, wallet discovery, and offline PSBT, Script, descriptor, and multisig-policy inspection. Upstream names identify technical provenance; they do not transfer authorship of upstream code to this project.
 
-Exact pinned versions, commits, package integrity values, transitive dependencies, copyright notices and license identifiers are recorded in [THIRD_PARTY_NOTICES.md](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535/THIRD_PARTY_NOTICES.md), [Dash implementation reference](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/d89020a32aa6eb4b76edf634069e83fa9c99c535/docs/reference/DASH_IMPLEMENTATION.md), the lockfiles and the Release passport embedded in each standalone artifact.
+Exact pinned versions, commits, package integrity values, transitive dependencies, copyright notices and license identifiers are recorded in [THIRD_PARTY_NOTICES.md](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/c7ed1bc58180914362eda53165b4c267f2c1b961/THIRD_PARTY_NOTICES.md), [Dash implementation reference](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/c7ed1bc58180914362eda53165b4c267f2c1b961/docs/reference/DASH_IMPLEMENTATION.md), the lockfiles and the Release passport embedded in each standalone artifact.
 
 - **SLIP-39 reference implementation and wordlist** — recovery encoding logic and official vectors adapted from Trezor's MIT-licensed [`python-shamir-mnemonic`](https://github.com/trezor/python-shamir-mnemonic).
 - **Shamir Secret Sharing** — the CKD Raw/Words formats use the pinned MIT OR Apache-2.0 [`sharks`](https://github.com/c0dearm/sharks) Rust implementation.
