@@ -87,8 +87,10 @@ jobs:
             Dash_Community_Key_Derivation_Tool.html.sha256 \
             Dash_Community_PSBT_Multisig_Inspector.html \
             Dash_Community_PSBT_Multisig_Inspector.html.sha256 \
+            ATTRIBUTION.md \
             LICENSE \
             SHA256SUMS \
+            THIRD_PARTY_NOTICES.md \
             verification-record.json | LC_ALL=C sort)
           if [[ "$actual" != "$expected" ]]; then
             echo "Unexpected Dash Community release asset set:" >&2
