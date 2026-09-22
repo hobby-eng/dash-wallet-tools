@@ -22,6 +22,7 @@ The Deriver's **Recover & Back Up** tab lets you prepare backups offline:
 - **Gordian Seed Envelope** encrypts a backup container. Configure alternative access through a password, recipient private key, or enough SSKR cards. You can also include the BIP39 passphrase, placing both wallet secrets in one backup. A key derived from the same phrase cannot recover the backup if that phrase is lost.
 - **Codex32** stores a checksummed phrase backup or a BIP32 master-seed backup, optionally split into shares. Master-seed mode cannot restore the original words or passphrase. Encoding alone is not encryption.
 - **SeedQR** encodes the phrase as a QR code for offline transfer or printing. It does not encrypt the secret.
+- **MHFE** converts a standard English BIP39 phrase into an experimental memory-hard encrypted 24-word container. It supports optional PIM, QR transfer, cancellation, and recovery-verifier reporting. Read the [MHFE specification](https://github.com/hobby-eng/mhfe-spec) before use.
 
 Each backup card or record can have a QR code saved as PNG. Restore tabs read QR image files offline, avoiding manual transcription. Treat each QR image like the secret it contains. SLIP-39, CKD Shamir, and standalone SSKR preserve phrase entropy; keep its separate BIP39 passphrase safe too.
 
@@ -29,7 +30,7 @@ The original phrase or a BIP85 child phrase can be used directly in the backup t
 
 ## Modular builds
 
-Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/043353cf74b751ccf03598e71e34be3d3dde9fe3/docs/BUILD_MODULES.md).
+Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/1108c8a6b0b85fb7033d4a28c82ca28d72da2e53/docs/BUILD_MODULES.md).
 
 The available modules below are generated from the actual build configuration:
 
@@ -37,7 +38,7 @@ The available modules below are generated from the actual build configuration:
 | --- | --- |
 | Dash Community Edition — Wallet Activity Viewer | Base coin support |
 | Dash Community Edition — Wallet Discovery Scanner | `seed-discovery`, `watch-only-discovery`, `wallet-matcher`, `custom-paths` |
-| Dash Community Edition — Wallet Key Derivation Tool | `derive`, `bip85`, `bip38-encrypt`, `message-signing`, `wallet-matcher`, `seedqr`, `slip39`, `shamir`, `codex32`, `sskr`, `gordian-envelope` |
+| Dash Community Edition — Wallet Key Derivation Tool | `derive`, `bip85`, `bip38-encrypt`, `message-signing`, `wallet-matcher`, `seedqr`, `mhfe`, `slip39`, `shamir`, `codex32`, `sskr`, `gordian-envelope` |
 | Dash Community Edition — PSBT & Multisig Inspector | `psbt-decoder`, `script-decoder`, `descriptor-decoder`, `policy-builder`, `multisig-wallet`, `message-verification`, `bip38-decrypt` |
 
 ## Verify a download
@@ -66,4 +67,4 @@ After a stable release is published in the canonical repository, **Build and pub
 
 **Sync canonical documentation** automatically refreshes these documents every hour from canonical `main`; it can also be run manually. It updates documentation only and does not publish HTML or change existing releases. Edit the templates and notices in the canonical repository, rather than editing generated copies here.
 
-Documentation source: [043353cf74b751ccf03598e71e34be3d3dde9fe3](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/043353cf74b751ccf03598e71e34be3d3dde9fe3). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
+Documentation source: [1108c8a6b0b85fb7033d4a28c82ca28d72da2e53](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/1108c8a6b0b85fb7033d4a28c82ca28d72da2e53). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
