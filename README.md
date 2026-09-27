@@ -30,7 +30,7 @@ The original phrase or a BIP85 child phrase can be used directly in the backup t
 
 ## Modular builds
 
-Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/0f6844449a2b2c53823b2f92af60d5dfdd683798/docs/BUILD_MODULES.md).
+Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/76cce41077a05307cbe06dd63b8d2d1da192eb23/docs/BUILD_MODULES.md).
 
 The available modules below are generated from the actual build configuration:
 
@@ -67,4 +67,4 @@ After a stable release is published in the canonical repository, **Build and pub
 
 **Sync canonical documentation** automatically refreshes these documents every hour from canonical `main`; it can also be run manually. It updates documentation only and does not publish HTML or change existing releases. Edit the templates and notices in the canonical repository, rather than editing generated copies here.
 
-Documentation source: [0f6844449a2b2c53823b2f92af60d5dfdd683798](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/0f6844449a2b2c53823b2f92af60d5dfdd683798). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
+Documentation source: [76cce41077a05307cbe06dd63b8d2d1da192eb23](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/76cce41077a05307cbe06dd63b8d2d1da192eb23). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
