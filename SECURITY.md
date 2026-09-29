@@ -25,6 +25,6 @@ The **Key Derivation Tool and PSBT & Multisig Inspector** instead prohibit netwo
 
 These controls isolate trusted secret-processing code from the network-capable realm. They cannot guarantee protection from a compromised browser/OS or deliberately malicious code inside the vault, and cannot guarantee erasure of JavaScript strings or browser memory copies.
 
-Checksums detect altered downloads; they do not prove cryptographic correctness. Clipboard history, screenshots, browser extensions, swap, and crash dumps remain outside the tools' isolation boundaries. See the [canonical security model](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/a5c4fbd1faf6a14a3352c78eac8cf326121393fe/SECURITY_AUDIT.md).
+Checksums detect altered downloads; they do not prove cryptographic correctness. Clipboard history, screenshots, browser extensions, swap, and crash dumps remain outside the tools' isolation boundaries. See the [canonical security model](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/4cb27ff4bca272ec780edddf1fca9324c224d03d/SECURITY_AUDIT.md).
 
-This file is generated from canonical documentation source [a5c4fbd1faf6a14a3352c78eac8cf326121393fe](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/a5c4fbd1faf6a14a3352c78eac8cf326121393fe). Update its template in the canonical repository.
+This file is generated from canonical documentation source [4cb27ff4bca272ec780edddf1fca9324c224d03d](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/4cb27ff4bca272ec780edddf1fca9324c224d03d). Update its template in the canonical repository.
