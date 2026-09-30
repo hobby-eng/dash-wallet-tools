@@ -85,17 +85,17 @@ jobs:
           echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
           echo 'publish=true' >> "$GITHUB_OUTPUT"
 
+  # The canonical build of the tagged source, with the Linux and Windows executables of the Key
+  # Derivation Tool when that source has them.
   release:
     needs: resolve
     if: needs.resolve.outputs.publish == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 120
+    outputs:
+      sha: ${{ steps.source.outputs.sha }}
+      launchers: ${{ steps.launchers.outputs.launchers }}
     steps:
-      - name: Check out the distribution repository
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-
       - name: Check out the canonical source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -139,6 +139,145 @@ jobs:
           cd source
           ./tooling/build-reproducible.sh
 
+      - name: Install the pinned Node runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: source/.node-version
+
+      # Releases before the executable version have no launcher tooling; they are published as before.
+      - name: Build the Linux and Windows executables around the canonical pages
+        id: launchers
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f source/tooling/build-launchers-reproducible.mjs ]]; then
+            (cd source && node tooling/build-launchers-reproducible.mjs)
+            echo 'launchers=true' >> "$GITHUB_OUTPUT"
+          else
+            echo 'launchers=false' >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Keep the canonical Dash Community build for the next jobs
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: canonical-dist
+          path: |
+            source/dist/dash-community-edition/
+            source/dist/verification-record.json
+          if-no-files-found: error
+          retention-days: 7
+
+  # The macOS executables need Apple's SDK, so a macOS runner builds them from the canonical page.
+  macos:
+    needs: [resolve, release]
+    if: needs.release.outputs.launchers == 'true'
+    runs-on: macos-15
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      RUSTUP_TOOLCHAIN: 1.99.0
+    steps:
+      - name: Check out the canonical source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: hobby-eng/multi-chain-wallet-tools
+          ref: ${{ needs.resolve.outputs.source_ref }}
+          path: source
+          persist-credentials: false
+
+      - name: Require the commit the canonical build used
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ needs.release.outputs.sha }}
+        run: test "$(git -C source rev-parse HEAD)" = "$EXPECTED_SHA"
+
+      - name: Install the pinned Node runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: source/.node-version
+
+      - name: Install the pinned Rust toolchain and the macOS targets
+        run: |
+          rustup toolchain install 1.99.0 --profile minimal \
+            --target aarch64-apple-darwin --target x86_64-apple-darwin
+          cargo fetch --locked --manifest-path source/apps/key-derivation/launcher/Cargo.toml
+
+      - name: Take the canonical build
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: canonical-dist
+          path: source/dist
+
+      - name: Build the macOS executables around the canonical page
+        run: |
+          cd source
+          node tooling/build-key-derivation-launchers.mjs --profile dash-community \
+            --platforms macos-aarch64,macos-x86_64
+
+      - name: Keep the macOS executables for publishing
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: macos-launchers
+          path: source/dist/dash-community-edition/key-derivation/Dash_Community_Key_Derivation_Tool-macos-*
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    needs: [resolve, release, macos]
+    # The macOS job is skipped for releases without the executable version.
+    if: >-
+      always() && needs.release.result == 'success' &&
+      (needs.macos.result == 'success' || needs.macos.result == 'skipped')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out the distribution repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check out the canonical source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: hobby-eng/multi-chain-wallet-tools
+          ref: ${{ needs.resolve.outputs.source_ref }}
+          path: source
+          persist-credentials: false
+
+      - name: Require the commit the canonical build used
+        shell: bash
+        env:
+          EXPECTED_SHA: ${{ needs.release.outputs.sha }}
+        run: test "$(git -C source rev-parse HEAD)" = "$EXPECTED_SHA"
+
+      - name: Install the pinned Node runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: source/.node-version
+
+      - name: Take the canonical build
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: canonical-dist
+          path: source/dist
+
+      - name: Take the macOS executables
+        if: needs.release.outputs.launchers == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: macos-launchers
+          path: source/dist/dash-community-edition/key-derivation
+
+      - name: Make the release assets again with every executable
+        if: needs.release.outputs.launchers == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd source
+          node tooling/create-github-release-assets.mjs --profile dash-community
+          node tooling/verify-github-release-assets.mjs --profile dash-community --all-launchers
+
       - name: Select and verify the Dash-only release bundle
         shell: bash
         run: |
@@ -169,7 +308,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           RELEASE_TAG: ${{ needs.resolve.outputs.release_tag }}
           SOURCE_REF: ${{ needs.resolve.outputs.source_ref }}
-          SOURCE_SHA: ${{ steps.source.outputs.sha }}
+          SOURCE_SHA: ${{ needs.release.outputs.sha }}
         run: |
           set -euo pipefail
           notes_file="source/docs/releases/${RELEASE_TAG}-dash-community.md"
