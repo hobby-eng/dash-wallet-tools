@@ -1,6 +1,6 @@
 # Dash Community Wallet Tools
 
-**Current canonical source version: 0.1.5** (source metadata date: 2026-09-17). This documentation describes the current code, not necessarily the latest published HTML release. Download published files from [Dash releases](https://github.com/hobby-eng/dash-wallet-tools/releases).
+**Current canonical source version: 0.1.5** (source metadata date: 2026-10-01). This documentation describes the current code, not necessarily the latest published HTML release. Download published files from [Dash releases](https://github.com/hobby-eng/dash-wallet-tools/releases).
 
 Dash Community Edition contains four standalone HTML tools for Dash. Open downloaded files in a current browser; no installation or server is required. Application code lives in [multi-chain-wallet-tools](https://github.com/hobby-eng/multi-chain-wallet-tools), and this repository distributes the Dash releases.
 
@@ -30,7 +30,7 @@ The original phrase or a BIP85 child phrase can be used directly in the backup t
 
 ## Modular builds
 
-Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/e26d27ca620c0ccc0671a8fd530f8fa83a15e651/docs/BUILD_MODULES.md).
+Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/fce5a3b4d1688da7297d683134445233305581ca/docs/BUILD_MODULES.md).
 
 The available modules below are generated from the actual build configuration:
 
@@ -67,4 +67,4 @@ After a stable release is published in the canonical repository, **Build and pub
 
 **Sync canonical documentation** automatically refreshes these documents every hour from canonical `main`; it can also be run manually. It updates documentation only and does not publish HTML or change existing releases. Edit the templates and notices in the canonical repository, rather than editing generated copies here.
 
-Documentation source: [e26d27ca620c0ccc0671a8fd530f8fa83a15e651](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/e26d27ca620c0ccc0671a8fd530f8fa83a15e651). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
+Documentation source: [fce5a3b4d1688da7297d683134445233305581ca](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/fce5a3b4d1688da7297d683134445233305581ca). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).

@@ -2,7 +2,7 @@
 
 Initial provenance review: 2026-09-08, using exact package manifests, `pnpm-lock.yaml`, `Cargo.lock`, and locked Cargo metadata. Direct JavaScript versions were reconciled with the current manifest again on 2026-09-12; this does not renew the upstream source or license review. This is dependency provenance information, not legal advice. The upstream license files remain authoritative.
 
-Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/e26d27ca620c0ccc0671a8fd530f8fa83a15e651/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
+Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/fce5a3b4d1688da7297d683134445233305581ca/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
 
 ## JavaScript production dependencies
 
@@ -48,19 +48,19 @@ The connected Multi-Chain applications use Blockchain.com, BlockCypher, Blockstr
 | ----------------------- | --------------------------------------------------------------------------------- | -------------------------------------- | ------------------- | --------------------------------------------------------------------------------------------------------- |
 | `orchard`               | 0.14.0, tag `dashified-0.14.1`, commit `38ac9c19a2df7bf3eeadc22ab23053e8fd538828` | `dashpay/orchard`                      | MIT OR Apache-2.0   | Official Dash Orchard/ZIP32 key and address logic                                                         |
 | `zcash_note_encryption` | 0.4.1, revision `9f7e93d42cef839d02b9d75918117941d453f8cb`                        | `dashpay/zcash_note_encryption`        | MIT OR Apache-2.0   | Locked Orchard transitive dependency                                                                      |
-| `wasm-bindgen`          | 0.2.128                                                                           | `rustwasm/wasm-bindgen` / crates.io    | MIT OR Apache-2.0   | Browser WASM ABI                                                                                          |
+| `wasm-bindgen`          | 0.2.129                                                                           | `rustwasm/wasm-bindgen` / crates.io    | MIT OR Apache-2.0   | Browser WASM ABI                                                                                          |
 | `codex32`               | 0.1.0                                                                             | `apoelstra/rust-codex32` / crates.io   | CC0-1.0             | BIP93 Codex32 checksum, master-seed encoding, and GF(32) share interpolation                              |
 | `sskr`                  | 0.12.0                                                                            | `BlockchainCommons/bc-sskr-rust`       | BSD-2-Clause-Patent | Standard grouped SSKR share creation and recovery with `ur:sskr` transport                                |
 | `bc-envelope`           | 0.43.0                                                                            | `BlockchainCommons/bc-envelope-rust`   | BSD-2-Clause-Patent | Gordian Seed Envelope encoding, encryption, password/recipient permits, and SSKR permits                  |
 | `bc-components`         | 0.31.1                                                                            | `BlockchainCommons/bc-components-rust` | BSD-2-Clause-Patent | X25519 recipient keys, symmetric content keys, SSKR specs, and standard Blockchain Commons key derivation |
-| `zeroize`               | 1.8.2                                                                             | `RustCrypto/utils` / crates.io         | MIT OR Apache-2.0   | Rust recovery-boundary secret-buffer clearing                                                             |
+| `zeroize`               | 1.9.0                                                                             | `RustCrypto/utils` / crates.io         | MIT OR Apache-2.0   | Rust recovery-boundary secret-buffer clearing                                                             |
 | `zip32`                 | 0.2.1                                                                             | `zcash/librustzcash` / crates.io       | MIT OR Apache-2.0   | ZIP32 account identifier/types                                                                            |
 | `hex`                   | 0.4.3                                                                             | `KokaKiwi/rust-hex` / crates.io        | MIT OR Apache-2.0   | Raw boundary serialization                                                                                |
 | `serde`                 | 1.0.229                                                                           | `serde-rs/serde` / crates.io           | MIT OR Apache-2.0   | Typed Rust boundary serialization                                                                         |
 | `serde_json`            | 1.0.151                                                                           | `serde-rs/json` / crates.io            | MIT OR Apache-2.0   | Escaped JSON boundary encoding and fixture parsing                                                        |
 | `bech32` (test only)    | 0.12.0                                                                            | `rust-bitcoin/rust-bech32` / crates.io | MIT                 | Independent Rust display-vector encoding                                                                  |
 | `rand_core` (test only) | 0.6.4                                                                             | `rust-random/rand_core` / crates.io    | MIT OR Apache-2.0   | Real encrypted-note scanner round-trip fixture                                                            |
-| `sha2` (executable)     | 0.10.9                                                                            | `RustCrypto/hashes` / crates.io        | MIT OR Apache-2.0   | SHA-256 check of the page embedded in the executable Key Derivation Tool                                  |
+| `sha2` (executable)     | 0.11.0                                                                            | `RustCrypto/hashes` / crates.io        | MIT OR Apache-2.0   | SHA-256 check of the page embedded in the executable Key Derivation Tool                                  |
 
 The TypeScript SLIP-39 implementation is a project-local port of the current MIT-licensed Trezor `python-shamir-mnemonic` reference implementation and includes its official recovery vectors and 1024-word list. The Codex32 tests use vectors published in BIP93 and the CC0 Rust reference implementation. No Python interpreter or Python package is bundled into a browser artifact or required at runtime.
 
@@ -83,7 +83,7 @@ These packages are not imported by production source except esbuild/TypeScript d
 
 ## Complete locked Rust metadata closure
 
-The following is the complete Cargo metadata package set. Registry packages come from crates.io; the two non-registry git sources are pinned above. Duplicate names represent simultaneously locked major versions.
+The following is the complete Cargo metadata package set of the WASM modules; the executable Deriver's crates follow in their own section below. Registry packages come from crates.io; the two non-registry git sources are pinned above. Duplicate names represent simultaneously locked major versions.
 
 ### MIT OR Apache-2.0 family
 
@@ -120,7 +120,7 @@ once_cell 1.21.4                opaque-debug 0.3.1
 orchard 0.14.0                  pasta_curves 0.5.2
 pin-project-lite 0.2.17         poly1305 0.8.0
 postcard 1.1.3                  proc-macro2 1.0.107
-quote 1.0.47                    rand 0.8.8                     rand_chacha 0.3.1
+quote 1.0.47                    rand 0.8.8
 rand_core 0.6.4                 reddsa 0.5.2
 rustc_version 0.4.1             rustversion 1.0.23
 scopeguard 1.2.0                semver 1.0.28
@@ -128,12 +128,12 @@ serde 1.0.229                   serde_core 1.0.229
 serde_derive 1.0.229            serdect 0.2.0
 sinsemilla 0.1.0               stable_deref_trait 1.2.1
 static_assertions 1.1.0         syn 2.0.119
-syn 3.0.4 / 3.0.6               thiserror 2.0.20
+syn 3.0.4 / 3.0.5               thiserror 2.0.20
 thiserror-impl 2.0.20           typenum 1.20.1
 universal-hash 0.5.1            version_check 0.9.5
-wasm-bindgen 0.2.128            wasm-bindgen-macro 0.2.128
-wasm-bindgen-macro-support 0.2.128
-wasm-bindgen-shared 0.2.128     zcash_note_encryption 0.4.1
+wasm-bindgen 0.2.129            wasm-bindgen-macro 0.2.129
+wasm-bindgen-macro-support 0.2.129
+wasm-bindgen-shared 0.2.129     zcash_note_encryption 0.4.1
 zcash_spec 0.2.1                zeroize 1.9.0
 zeroize_derive 1.5.0            zip32 0.2.1
 itoa 1.0.18                     serde_json 1.0.151
@@ -230,7 +230,7 @@ icu_properties_data 2.3.0                        Unicode-3.0
 icu_provider 2.3.1                               Unicode-3.0
 idna 1.1.0                                       MIT OR Apache-2.0
 idna_adapter 1.2.2                               Apache-2.0 OR MIT
-js-sys 0.3.105                                   MIT OR Apache-2.0
+js-sys 0.3.106                                   MIT OR Apache-2.0
 known-values 0.15.5                              BSD-2-Clause-Patent
 litemap 0.8.3                                    Unicode-3.0
 log 0.4.34                                       MIT OR Apache-2.0
@@ -251,7 +251,7 @@ ppv-lite86 0.2.21                                MIT OR Apache-2.0
 r-efi 5.3.0                                      MIT OR Apache-2.0 OR LGPL-2.1-or-later
 rand 0.9.5                                       MIT OR Apache-2.0
 rand_chacha 0.9.0                                MIT OR Apache-2.0
-rand_core 0.9.3                                  MIT OR Apache-2.0
+rand_core 0.9.5                                  MIT OR Apache-2.0
 rand_core 0.9.5                                  MIT OR Apache-2.0
 rand_xoshiro 0.6.0                               MIT OR Apache-2.0
 rand_xoshiro 0.7.0                               MIT OR Apache-2.0
@@ -259,7 +259,7 @@ salsa20 0.10.2                                   MIT OR Apache-2.0
 scrypt 0.11.0                                    MIT OR Apache-2.0
 secp256k1 0.31.1                                 CC0-1.0
 secp256k1-sys 0.11.0                             CC0-1.0
-serde_json 1.0.149                               MIT OR Apache-2.0
+serde_json 1.0.151                               MIT OR Apache-2.0
 sha2 0.10.9                                      MIT OR Apache-2.0
 shlex 2.0.1                                      MIT OR Apache-2.0
 signature 2.2.0                                  Apache-2.0 OR MIT
@@ -293,11 +293,23 @@ zerocopy 0.8.57                                  BSD-2-Clause OR Apache-2.0 OR M
 zerocopy-derive 0.8.57                           BSD-2-Clause OR Apache-2.0 OR MIT
 zerofrom 0.1.8                                   Unicode-3.0
 zerofrom-derive 0.1.8                            Unicode-3.0
-zeroize 1.8.2                                    Apache-2.0 OR MIT
+zeroize 1.9.0                                    Apache-2.0 OR MIT
 zerotrie 0.2.5                                   Unicode-3.0
 zerovec 0.11.8                                   Unicode-3.0
 zerovec-derive 0.11.6                            Unicode-3.0
 ```
+
+### Executable Key Derivation Tool
+
+The executable versions of the Deriver compile exactly the crates of `apps/key-derivation/launcher/Cargo.lock`, all licensed MIT OR Apache-2.0:
+
+```text
+block-buffer 0.12.1             cfg-if 1.0.4                  cpufeatures 0.3.1
+crypto-common 0.2.2             digest 0.11.3                 hybrid-array 0.4.15
+libc 0.2.189                    sha2 0.11.0                   typenum 1.20.1
+```
+
+Each executable also contains the standard library of Rust 1.98.1, licensed MIT OR Apache-2.0. The Linux and Windows executables are linked in `Dockerfile.launchers` with the GNU toolchains of its pinned Ubuntu snapshot (`gcc-aarch64-linux-gnu`, MinGW-w64 `gcc-mingw-w64-x86-64`), the macOS executables with Apple's toolchain on the release runner.
 
 ## Reproduced notices for Recovery and QR components
 
@@ -370,6 +382,8 @@ SeedSigner — SeedQR specification and vectors
 
 Copyright (c) 2026 Sergei Semenov
 MHFE 0.4.0 — browser package (client, worker, Rust core WebAssembly)
+(its Emscripten, musl and wasm-bindgen notices and the licences of the Rust crates in its core are in
+`packages/recovery-mhfe-wasm/notices/THIRD_PARTY_NOTICES.md`)
 
 Copyright (c) Project Nayuki
 Copyright (c) 2023 Anthony Fu <https://github.com/antfu>
@@ -407,7 +421,7 @@ SOFTWARE.
 - `Cargo.toml` uses exact registry versions and one exact audited Orchard tag; `Cargo.lock` pins all transitive versions and git commits.
 - Every supported build validates SHA-512 integrity entries for the complete pnpm package closure, SHA-256 checksums for every crates.io package, and full commit pins for Cargo git sources before compiling.
 - Exact GitHub revisions are recorded for Orchard, note encryption, rust-codex32, the SLIP-39 reference, SeedSigner SeedQR, MHFE 0.4.0, Blockchain Commons SSKR, Gordian Envelope, and bc-components. If GitHub is reachable, a differing revision fails the build. If it is unavailable, the build prints a conspicuous warning while the mandatory local/package-manager hash checks still apply. The registry-published `blahaj` source is bound by its Cargo SHA-256 checksum.
-- The verification record also carries SHA-256 hashes for the local SeedQR, MHFE, SLIP-39, Codex32, SSKR, Gordian Seed Envelope, QR rendering, and QR decoding sources. The seven embedded MHFE package files are additionally checked against fixed SHA-256 values before every supported build. The package's Argon2 builds contain the reference C implementation of Argon2 (`P-H-C/phc-winner-argon2`, commit `f57e61e19229e23c4445b85494dbf7c07de721cb`), which is dual licensed CC0-1.0 or Apache-2.0; MHFE uses it under Apache-2.0, whose text is in `packages/recovery-mhfe-wasm/LICENSE-ARGON2`.
+- The verification record also carries SHA-256 hashes for the local SeedQR, MnemoCode, MHFE, SLIP-39, Codex32, SSKR, Gordian Seed Envelope, QR rendering, and QR decoding sources. The six vendored MHFE package files are additionally checked against fixed SHA-256 values before every supported build. The package's Argon2 builds contain the reference C implementation of Argon2 (`P-H-C/phc-winner-argon2`, commit `f57e61e19229e23c4445b85494dbf7c07de721cb`), which is dual licensed CC0-1.0 or Apache-2.0; MHFE uses it under Apache-2.0, whose text is in `packages/recovery-mhfe-wasm/LICENSE-ARGON2`.
 - `apps/key-derivation/src/index.html` contains a human-readable embedded production-dependency notice so the standalone artifact retains provenance when copied alone.
 - `apps/activity-viewer/src/index.html` identifies its embedded Evo SDK/Orchard versions and online security boundary; the current Bitcoin, Ethereum, and Dash runtime providers are documented in its application README and the root security audit.
 - `apps/discovery-scanner/src/index.html` identifies its embedded Evo SDK/Orchard versions and mnemonic-bearing online boundary; its current Bitcoin, Ethereum, and Dash providers are documented in its application README and the root security audit.
