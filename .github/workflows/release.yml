@@ -14,10 +14,12 @@ on:
         required: false
         type: string
 
+# Read-only by default. Only the publish job, which runs no dependency code, may write the release,
+# request an OIDC token and store attestations: a job that installs or runs dependencies (the
+# canonical container build, the launcher builds and checks) must not be able to sign or publish
+# under this workflow's identity.
 permissions:
-  contents: write
-  id-token: write
-  attestations: write
+  contents: read
 
 concurrency:
   group: dash-community-release
@@ -27,8 +29,6 @@ jobs:
   resolve:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-    permissions:
-      contents: read
     outputs:
       publish: ${{ steps.release.outputs.publish }}
       source_ref: ${{ steps.release.outputs.source_ref }}
@@ -173,8 +173,6 @@ jobs:
     if: needs.release.outputs.launchers == 'true'
     runs-on: macos-15
     timeout-minutes: 30
-    permissions:
-      contents: read
     env:
       RUSTUP_TOOLCHAIN: 1.99.0
     steps:
@@ -223,14 +221,92 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-  publish:
+  # Every executable is started on its own system before anything is published, one runner for
+  # each of the five platforms, as the canonical release workflow does: the served page and
+  # headers, refusals, isolation, fast mode and an MHFE worker in Chromium, no requests and no
+  # storage. Without --full it replays no Argon2 vector. Releases before the executable version
+  # have nothing to start.
+  launchers:
     needs: [resolve, release, macos]
-    # The macOS job is skipped for releases without the executable version.
+    if: needs.release.outputs.launchers == 'true'
+    strategy:
+      fail-fast: true
+      matrix:
+        os: [ubuntu-24.04, ubuntu-24.04-arm, windows-2025, macos-15, macos-15-intel]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Check out the canonical source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: hobby-eng/multi-chain-wallet-tools
+          ref: ${{ needs.resolve.outputs.source_ref }}
+          path: source
+          persist-credentials: false
+
+      - name: Require the commit the canonical build used
+        env:
+          EXPECTED_SHA: ${{ needs.release.outputs.sha }}
+        run: test "$(git -C source rev-parse HEAD)" = "$EXPECTED_SHA"
+
+      - name: Install the pinned pnpm runtime
+        uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          package_json_file: source/package.json
+
+      - name: Install the pinned Node runtime
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: source/.node-version
+          cache: pnpm
+          cache-dependency-path: source/pnpm-lock.yaml
+
+      - name: Install locked JavaScript dependencies and Chromium
+        working-directory: source
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install --with-deps chromium
+
+      - name: Take the canonical build
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: canonical-dist
+          path: source/dist
+
+      - name: Take the macOS executables
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: macos-launchers
+          path: source/dist/dash-community-edition/key-derivation
+
+      # A downloaded artifact loses its executable bit, as a browser download does.
+      - name: Allow the executable to run
+        if: runner.os != 'Windows'
+        run: chmod +x source/dist/dash-community-edition/key-derivation/Dash_Community_Key_Derivation_Tool-*
+
+      - name: Run the executable and check the page it serves
+        working-directory: source
+        run: node tooling/verify-key-derivation-launcher.mjs --profile dash-community
+
+  publish:
+    needs: [resolve, release, macos, launchers]
+    # The macOS and launcher jobs are skipped for releases without the executable version; always()
+    # keeps those releases publishable, and every other combination of results stops here.
     if: >-
       always() && needs.release.result == 'success' &&
-      (needs.macos.result == 'success' || needs.macos.result == 'skipped')
+      ((needs.release.outputs.launchers == 'true' && needs.macos.result == 'success' &&
+      needs.launchers.result == 'success') ||
+      (needs.release.outputs.launchers == 'false' && needs.macos.result == 'skipped' &&
+      needs.launchers.result == 'skipped'))
     runs-on: ubuntu-24.04
     timeout-minutes: 30
+    permissions:
+      contents: write # gh release create
+      id-token: write # actions/attest OIDC token
+      attestations: write # actions/attest storage
     steps:
       - name: Check out the distribution repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1

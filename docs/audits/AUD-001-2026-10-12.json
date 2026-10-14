@@ -1,0 +1,635 @@
+{
+  "schemaVersion": 1,
+  "auditId": "AUD-001",
+  "auditNumber": 1,
+  "date": "2026-10-12",
+  "completedAtUtc": "2026-10-12T13:44:30.150324+00:00",
+  "title": "dash-wallet-tools: full scope, bounded baseline audit",
+  "reviewer": {
+    "name": "Codex coordinator and five reviewers",
+    "model": null,
+    "reasoningEffort": null
+  },
+  "snapshot": {
+    "commit": "a4c9075d5b0a3cca9eedd9963a345a02352cd23d",
+    "commitComplete": false,
+    "workingTree": {
+      "state": "pre-existing dirty primary checkout; no production remediation",
+      "sourceFileCount": 9,
+      "snapshotUtc": "2026-10-12T12:39:34.780233+00:00",
+      "diffSha256": "33b9acc8376aef4f78b07f37ab5a7134a050215f631f13801848fcfc8504e489",
+      "sourceManifestSha256": "eed8c09b0fc77dae5e3d11dde5295c9c51d1e038a68f58df6a3734d5562bb4ef",
+      "gitDirectory": ".git",
+      "commonDirectory": ".git"
+    },
+    "sourceFingerprint": "34d0b0d4467ee04e4d69dbfeb0dba52f64d51834c6b3875cc0b632ec40544a4b",
+    "sourceManifest": [
+      {
+        "path": ".github/workflows/release.yml",
+        "sha256": "4cf2b12e222b34ced827bcd28c924c4a45f2745bed4c38b0904c79a993102681"
+      },
+      {
+        "path": ".github/workflows/sync-documentation.yml",
+        "sha256": "a45b8edfc3f0a8fa6413071e6c1b1ad73effe0e966d0fb4d61dd5452e12d3615"
+      },
+      {
+        "path": ".gitignore",
+        "sha256": "230f4e6f5ac69c3eba29180b9e9e8d3ed7d7358898d3653eb0bb0ad7aa65f19d"
+      },
+      {
+        "path": "ATTRIBUTION.md",
+        "sha256": "1d81bcad39a8ff082f6177cf5e2e12dda531904e8a7a52b436865726d3713152"
+      },
+      {
+        "path": "LICENSE",
+        "sha256": "caf27edda9f161c05080b929367e2b039351b717fc67657884c2e5d5e7ed6e39"
+      },
+      {
+        "path": "README.md",
+        "sha256": "4aca3dce0fd92605074280b1f634d8cd3562b96da1b9e313482d54ac31cb71db"
+      },
+      {
+        "path": "SECURITY.md",
+        "sha256": "cfe3bb03630fd0a21f5ad394ca53c78c4b61ceb5ee4c3dfb0ac6889077a4ab2a"
+      },
+      {
+        "path": "THIRD_PARTY_NOTICES.md",
+        "sha256": "ffa62095f37cfeec99a648e16c986472fad690bdcacaa02bf82df4440762a54c"
+      },
+      {
+        "path": "documentation-source.json",
+        "sha256": "f3275d9e4d5555704b95f24f9b89f9b988789468f1e6a1d7a431c6e07042b6ca"
+      }
+    ],
+    "auditSetup": {
+      "originalSourceFingerprint": "4e0961052ac82839a24d38b246287713b2f52946d970385898713380552e462f",
+      "change": "Only .gitignore gained local audit-evidence/Python-cache exclusions before the reviewed snapshot. Pre-existing release workflow edits were preserved."
+    }
+  },
+  "procedure": {
+    "docs/FULL_AUDIT_GUIDE.md": "e1b2fb641e4a25ebf292548fc1e2ef0c25dbd01faa5c2b580c6ba75df2afcab7",
+    "docs/audits/AUDIT_STANDARD.md": "9128a5e243ec5de86b58bde7b84f7d3bf6b9174346c056a34c5425957b27dc1f",
+    "docs/audits/AUDIT_TEMPLATE.md": "8122777f8093b04119633459b9b2cc50bc6ca9258bfc6184b52136d3b8172210",
+    "docs/audit-report.schema.json": "989bf3de974d581579c1d1c1e143d5ab9fa232dc70cc8c6f84ad00531ae698fb"
+  },
+  "scope": "Dash distribution workflows, source selection, document pins and inherited upstream asset prerequisites",
+  "checks": [
+    {
+      "checkId": "CHECK-SEC-001",
+      "title": "Threat model and secret ownership",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Distribution threat model: maintainers select an exact upstream release/tag/SHA; build and publication authority are separated.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Static/fixture evidence only; no real release downloads, permission enforcement, signing or publication. Upstream assets retain AUD-028 acceptance gaps."
+    },
+    {
+      "checkId": "CHECK-SEC-002",
+      "title": "Secret Vault, CSP, sandbox, and transport",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-SEC-003",
+      "title": "Network egress and secret guards",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review workflow credential permissions, third-party action pins, release downloads and first-party publication scripts. No private wallet material belongs in this repository.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Static/fixture evidence only; no real release downloads, permission enforcement, signing or publication. Upstream assets retain AUD-028 acceptance gaps."
+    },
+    {
+      "checkId": "CHECK-SEC-004",
+      "title": "Randomness, encryption, and authentication",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-SEC-005",
+      "title": "Secret lifecycle and exceptional paths",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-SEC-006",
+      "title": "Browser injection, persistence, and sensitive APIs",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-SEC-007",
+      "title": "Read-only guarantees and availability bounds",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review read-only build tokens, scoped publication authority, stable release queue and cancellation policy; bounded resolver fixtures.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Static/fixture evidence only; no real release downloads, permission enforcement, signing or publication. Upstream assets retain AUD-028 acceptance gaps."
+    },
+    {
+      "checkId": "CHECK-FUN-001",
+      "title": "BIP39, entropy, and seed interpretation",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-FUN-002",
+      "title": "HD derivation and every coin/profile",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-FUN-003",
+      "title": "BIP85, BIP38, messages, and Silent Payments",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-FUN-004",
+      "title": "Scripts, descriptors, Miniscript, and multisig",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-FUN-005",
+      "title": "Transactions, PSBT version context, and commitments",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-FUN-006",
+      "title": "Recovery and backup formats",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-FUN-007",
+      "title": "Discovery, providers, proofs, and accounting",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-API-001",
+      "title": "Actual dependency call contracts",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Exercise the actual workflow Bash/gh/jq input contract with13 bounded public release-list fixtures.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Static/fixture evidence only; no real release downloads, permission enforcement, signing or publication. Upstream assets retain AUD-028 acceptance gaps."
+    },
+    {
+      "checkId": "CHECK-API-002",
+      "title": "Async state, cancellation, and revisions",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review concurrency/queued stable-release selection and explicit release overrides; no running CI jobs dispatched.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Static/fixture evidence only; no real release downloads, permission enforcement, signing or publication. Upstream assets retain AUD-028 acceptance gaps."
+    },
+    {
+      "checkId": "CHECK-API-003",
+      "title": "Public export schema and monetary fidelity",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-API-004",
+      "title": "Encoding and import/export interoperability",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review upstream tag/SHA, expected asset naming/checksum admission and the exact five-document source manifest.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Static/fixture evidence only; no real release downloads, permission enforcement, signing or publication. Upstream assets retain AUD-028 acceptance gaps."
+    },
+    {
+      "checkId": "CHECK-BLD-001",
+      "title": "Manifest, flags, and feature composition",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-BLD-002",
+      "title": "Matrix depth and runtime sampling",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-BLD-003",
+      "title": "Lockfiles, source provenance, and licenses",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-BLD-004",
+      "title": "Canonical WASM and Docker bytes",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-BLD-005",
+      "title": "Artifacts, CI, and release workflows",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-UI-001",
+      "title": "Real files and representative viewports",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-UI-002",
+      "title": "Navigation, inputs, and state preservation",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-UI-003",
+      "title": "Secret visibility, help, QR, and accessibility",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "not-applicable",
+      "method": "No corresponding runtime implementation is owned by this distribution repository; trace inherited packaged HTML/launcher prerequisites to upstream AUD-028.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "Upstream implementation is covered with explicit execution gaps in AUD-028. No local browser/crypto/provider implementation exists to execute here."
+    },
+    {
+      "checkId": "CHECK-ARC-001",
+      "title": "Ownership, imports, and composition seams",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-ARC-002",
+      "title": "Dead code, duplication, and false positives",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-ARC-003",
+      "title": "Comments, tests, and production-path fidelity",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-DOC-001",
+      "title": "User-facing capability and safety descriptions",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-DOC-002",
+      "title": "Commands, metadata, links, and legal materials",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    },
+    {
+      "checkId": "CHECK-DOC-003",
+      "title": "Audit records and evidence consistency",
+      "owner": "coordinator",
+      "expectedEvidence": "Current source trace and bounded negative/known-answer tests; builds/workflow fixtures where applicable",
+      "executionGaps": "Browsers, full vectors, full-size KDFs, bulk PDF, canonical Docker, release workflow and live providers are excluded from execution.",
+      "outcome": "partial",
+      "method": "Review actual workflow/document pins and repository boundaries; execute13 release-selection cases where applicable.",
+      "evidence": [
+        "release-resolver.command.json",
+        "git-whitespace.command.json"
+      ],
+      "gap": "No paid release workflow, artifact publication, package execution or canonical rebuild; upstream source/build acceptance unresolved."
+    }
+  ],
+  "commands": [
+    {
+      "command": ["git", "diff", "--check"],
+      "cwd": "/home/user/Documents/bip_tools/dash-wallet-tools",
+      "startedAtUtc": "2026-10-12T12:34:27.267144+00:00",
+      "endedAtUtc": "2026-10-12T12:34:27.475774+00:00",
+      "exitCode": 0,
+      "stopped": null,
+      "environment": {
+        "NODE_OPTIONS": "--max-old-space-size=1536",
+        "CARGO_BUILD_JOBS": "1"
+      },
+      "memoryReserveKiB": 1228800,
+      "minimumAvailableKiB": 5663816,
+      "sourceBefore": "34d0b0d4467ee04e4d69dbfeb0dba52f64d51834c6b3875cc0b632ec40544a4b",
+      "sourceAfter": "34d0b0d4467ee04e4d69dbfeb0dba52f64d51834c6b3875cc0b632ec40544a4b",
+      "sourceChangesDuringCommand": [],
+      "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "name": "git-whitespace",
+      "recordSha256": "c6278e5fedd5d26ca64b8d5de21f86aa70d5f4654fe98bcdd2f93ce26b2279cd",
+      "log": "git-whitespace.log",
+      "displayCommand": "git diff --check"
+    },
+    {
+      "command": ["python3", "docs/audits/AUD-001-harnesses/resolve.py"],
+      "cwd": "/home/user/Documents/bip_tools/dash-wallet-tools",
+      "startedAtUtc": "2026-10-12T12:24:19.082954+00:00",
+      "endedAtUtc": "2026-10-12T12:24:19.892986+00:00",
+      "exitCode": 0,
+      "stopped": null,
+      "environment": {
+        "NODE_OPTIONS": "--max-old-space-size=1536",
+        "CARGO_BUILD_JOBS": "1"
+      },
+      "memoryReserveKiB": 1228800,
+      "minimumAvailableKiB": 5124304,
+      "sourceBefore": "34d0b0d4467ee04e4d69dbfeb0dba52f64d51834c6b3875cc0b632ec40544a4b",
+      "sourceAfter": "34d0b0d4467ee04e4d69dbfeb0dba52f64d51834c6b3875cc0b632ec40544a4b",
+      "sourceChangesDuringCommand": [],
+      "logSha256": "83e90cc4843bb42cd7292ed56189ac4a95a6f05d070570a1176f86c5aa6a0d3a",
+      "name": "release-resolver",
+      "recordSha256": "cc2dd626290f7470cb54fcce7e8f42f018c1de5e76e5bf0e68fa5c96a4f567f1",
+      "log": "release-resolver.log",
+      "displayCommand": "python3 docs/audits/AUD-001-harnesses/resolve.py"
+    }
+  ],
+  "findings": [],
+  "observations": [],
+  "remediation": [],
+  "limitations": [
+    "Full audit scope was reviewed with targeted/security-level execution. This is an incomplete baseline audit, not release acceptance or independent certification.",
+    "No real browsers, viewports, screenshots, accessibility trees, startup controls or actual browser worker/CSP lifecycle were executed at the owner's request. Controller probes use bounded fake DOM/worker replies; source integration was challenged separately.",
+    "No canonical Docker/WASM/launcher rebuild, complete feature matrix compilation/runtime, packaged launcher binaries, checksums/signing/attestation release bundle or GitHub Actions execution. Seven fresh default HTML pages and three minimal compositions were built; default Dash Deriver failed, and its old page was rejected as stale.",
+    "No full vector/statistics replays, full-size Argon2/scrypt/password KDFs, mass PDF/card/QR generation, live providers, regtest, wallet funds or real secrets. One mistakenly selected statistics file timed out and is excluded from completed test totals.",
+    "The crypto reviewer completed source inspection but its proposed test preparation was interrupted by an automatic cybersecurity content filter. The coordinator subsequently completed ordinary bounded synthetic conformance/rejection/recovery tests. Independent decryption of a weak-recipient record without a private key remains unexecuted; the confidentiality impact is inferred from the bound dependency path.",
+    "Npm advisories returned zero for150 packages. Five offline Cargo.lock scans returned zero known vulnerabilities using1296 cached advisories, with unknown advisory database freshness and yanked-package checks disabled. Unmaintained atomic-polyfill and paste warnings remain informational.",
+    "Exact service model identifiers and reliable reasoning-effort metadata were unavailable for all phases; null means unknown. Five reviewers contributed distinct scopes plus coordinator follow-up; no claim of independent certification.",
+    "No proof of post-GC zeroization, compiler erasure or secret residue recoverability. Captured buffer references demonstrate explicit cleanup only. No active unauthorized network/write call or real secret egress was demonstrated.",
+    "Installed Evo SDK4.1.1 delegates unfunded-address key selection to opaque WASM. Compatibility with explicit-null complete Maps is checked; actual empty-proof inclusion/omission semantics remain a gap.",
+    "Pinned MnemoCode source169 files is byte-matched to the checked source manifest but intentionally unreleased/dirty; CI rejects it. Its release handover remains a prerequisite. MHFE0.6.0 browser release pin is retained unchanged.",
+    "Crypto-backed known answers and narrow independent Go derivation checks were sampled. Full per-coin/path/script/BIP38/Silent Payments cryptographic acceptance was not replayed. Broad Taproot self-comparisons are not counted as independent oracles.",
+    "Original Node/Rust sandbox EPERM failures and harness/CLI initialization errors are retained separately from scoped successful reruns. No assertion, vector, offline boundary or integrity gate was relaxed.",
+    "Command memory sampling and serialization protect the coordinator's child process group; unrelated host processes are outside its enforcement. Source fingerprints remained stable throughout recorded product checks. Audit evidence is ignored and uncommitted."
+  ],
+  "assessment": "Baseline only. Full execution and release acceptance are incomplete. No fixes, commits, pushes, tags or releases were performed.",
+  "summary": {
+    "ownedFindings": 0,
+    "resolverCases": 13,
+    "resolverPassed": 13,
+    "assessment": "No distribution-owned defect confirmed by these bounds. Current upstream blockers prevent acceptance of new assets."
+  },
+  "upstreamAudit": {
+    "repository": "multi-chain-wallet-tools",
+    "auditId": "AUD-028",
+    "commit": "c5b62c2d489e7525326071128095ba95ecca92ac",
+    "sourceFingerprint": "dca9cc0b259bf11b00fa0e65a5c7068e279feae63aeab25618f71e52d63ba06b",
+    "releaseBlockers": [
+      "AUD-028-SEC001",
+      "AUD-028-API002",
+      "AUD-028-API003",
+      "AUD-028-API005",
+      "AUD-028-BLD001",
+      "AUD-028-BLD002",
+      "AUD-028-BLD003",
+      "AUD-028-SEC003",
+      "AUD-028-ARC004"
+    ],
+    "report": "../../../multi-chain-wallet-tools/docs/audits/AUD-028-2026-10-12.md"
+  },
+  "distributionEvidence": [
+    "13 real workflow Bash resolver cases with fake gh JSON and real jq: stable/draft/prerelease/floor/already-published/manual choices pass.",
+    "Release selection binds version/tag/source SHA and checks expected launcher/platform/checksum assets; build permissions are read-only, publication scoped separately. Static review, not CI execution.",
+    "documentation-source.json binds five copied legal/release documents; actual SHA-256 values match. A historic documentation source pin is not a claim of synchronizing the current dirty upstream tree.",
+    "Local bot commit evidence includes an SSH signature. No unsigned-commit finding is inferred from missing visible workflow signing setup; future CI execution remains unverified."
+  ],
+  "harnessHashes": {
+    "docs/audits/AUD-001-harnesses/README.md": "9ae9caba7bcd6f5a7279e5616a298766b3850d0b2963d117c3b5b0637bc4f3b0",
+    "docs/audits/AUD-001-harnesses/resolve.py": "deb5374fab9b7930b73f4a6e76e14e3926faf84658c55d3bbac9c729fc516601"
+  },
+  "reportTimeZone": "UTC (+00:00)",
+  "privacyProvenance": {
+    "note": "Owner-authorized privacy-only publication metadata; no audit checks were rerun. Original instants, date precision, findings, counts, source and artifact hashes, and raw local evidence are retained. Date-only records gain no inferred clock value. Original document bindings remain recorded as historical provenance; current document bindings identify publication bytes only.",
+    "checksRerun": false,
+    "originalDocuments": {
+      "markdownSha256": "21a5c477636fcff0add12778d90a0cfd50e9a2e56e312195222da40e9bca6b1e",
+      "jsonSha256": "6d579eaa8c59fef28912bcdcbe8aa8204e66eb2a49d6ca28cae6e23de31041bc"
+    },
+    "originalDocumentBindings": []
+  }
+}

@@ -1,3 +1,8 @@
 release-assets/
 release-notes.md
 source/
+
+# Audit evidence remains local; reports and harnesses may be reviewed separately.
+docs/audits/*-evidence/
+__pycache__/
+*.py[cod]
