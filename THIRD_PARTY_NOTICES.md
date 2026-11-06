@@ -2,7 +2,7 @@
 
 Initial provenance review: 2026-09-08, using exact package manifests, `pnpm-lock.yaml`, `Cargo.lock`, and locked Cargo metadata. Direct JavaScript versions were reconciled with the current manifest again on 2026-09-12; this does not renew the upstream source or license review. This is dependency provenance information, not legal advice. The upstream license files remain authoritative.
 
-Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/3fdb1fdfdb4611397f14317e1307b9897671a806/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
+Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/3f22b11f09fbe2097a586842379d8460f0e80d09/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
 
 ## JavaScript production dependencies
 
@@ -19,22 +19,16 @@ Original project code is licensed under the repository's [MIT License](https://g
 | `@scure/base`              | 2.4.0         | `paulmillr/scure-base`                       | MIT               | Base58Check, Bech32, Bech32m                                                                                                      |
 | `@scure/bip32`             | 2.4.0         | `paulmillr/scure-bip32`                      | MIT               | BIP32 HD key derivation/serialization                                                                                             |
 | `@scure/bip39`             | 2.4.0         | `paulmillr/scure-bip39`                      | MIT               | BIP39 validation, PBKDF2 seed, English list                                                                                       |
-| `@dashevo/evo-sdk`         | 4.1.1         | `dashpay/platform` (`packages/js-evo-sdk`)   | MIT               | Connected Viewer/Recovery facades and trusted DAPI queries                                                                        |
-| `@dashevo/wasm-sdk`        | 4.1.1         | `dashpay/platform` (`packages/wasm-sdk`)     | MIT               | Embedded proof-verifying DAPI transport for connected artifacts                                                                   |
+| `@dashevo/evo-sdk`         | 5.0.3         | `dashpay/platform` (`packages/js-evo-sdk`)   | MIT               | Connected Viewer/Recovery facades and trusted DAPI queries                                                                        |
+| `@dashevo/wasm-sdk`        | 5.0.3         | `dashpay/platform` (`packages/wasm-sdk`)     | MIT               | Embedded proof-verifying DAPI transport for connected artifacts                                                                   |
 | `write-excel-file`         | 4.1.1         | `gitlab.com/catamphetamine/write-excel-file` | MIT               | Local XLSX workbook generation for Activity Viewer exports                                                                        |
-| `fflate`                   | 0.8.3         | `101arrowz/fflate`                           | MIT               | ZIP container generation for local XLSX exports                                                                                   |
-| `pdf-lib`                  | 1.17.1        | `Hopding/pdf-lib`                            | MIT               | PDF creation for MnemoCode card export in the Key Derivation Tool                                                                 |
-| `@pdf-lib/fontkit`         | 1.1.1         | `Hopding/fontkit`                            | MIT               | Font embedding for MnemoCode card export                                                                                          |
-| `@pdf-lib/upng`            | 1.0.1         | `Hopding/upng`                               | MIT               | PNG coding for MnemoCode card artwork; also a dependency of `pdf-lib`                                                             |
-| `@pdf-lib/standard-fonts`  | 1.0.0         | `Hopding/standard-fonts`                     | MIT               | Dependency of `pdf-lib`                                                                                                           |
-| `pako`                     | 1.0.11        | `nodeca/pako`                                | MIT AND Zlib      | Compression used by the PDF libraries                                                                                             |
-| `tslib`                    | 1.14.1        | `microsoft/tslib`                            | 0BSD              | Runtime helpers used by `pdf-lib`                                                                                                 |
+| `fflate`                   | 0.8.3         | `101arrowz/fflate`                           | MIT               | ZIP files: XLSX exports, and MnemoCode card and word-table files                                                                  |
 | `uqr`                      | 0.1.3         | `unjs/uqr`                                   | MIT               | Offline QR matrix encoding for public payment addresses                                                                           |
 | `qr`                       | 0.7.0         | `paulmillr/qr`                               | MIT OR Apache-2.0 | Offline QR image decoding for SeedQR and recovery-share imports                                                                   |
 
-The two Dash SDK packages are bundled into both editions of the Wallet Activity Viewer and scan-only Wallet Discovery Scanner, never into either Wallet Key Derivation Tool. Their pnpm integrity pins are `sha512-DsfHXlLByyhvAerDknozg0HT4KHNsYP6rEy949aj/KGLLydb9bwJBHOWyn5oDsNR016tvr3oeT/jCkjMA4qoCA==` and `sha512-/be0D7qohZc9fHgYjbtzOg8KOajarzo0NtKCNybv4Z1xeV617Wo0CusnsxCzwbV7C/jDgPJiGel0KtcSTzQcfQ==`. Copyright notices embedded by Noble/Scure identify Paul Miller and, for Scure BIP32/BIP39, Patricio Palladino. esbuild preserves inline legal comments in the standalone JavaScript.
+The two Dash SDK packages are bundled into both editions of the Wallet Activity Viewer and scan-only Wallet Discovery Scanner, never into either Wallet Key Derivation Tool. Their pnpm integrity pins are `sha512-rfYrmGs+CK3hk3PCKb+AkTy6vunrtRJX4CcT+7Wm2cpc+0qVxH9LMyG6oWX0GRJOPRtcYly5u3nM6nYf5ElSFA==` and `sha512-4GpUI3jt/gNRAQcBwjOzjp+2ohssbUYz6FIkebQ7YF16ca+OIZNjDMqogJcjH7gN4upXyheGCDN/h3RGgVFJQQ==`. Copyright notices embedded by Noble/Scure identify Paul Miller and, for Scure BIP32/BIP39, Patricio Palladino. esbuild preserves inline legal comments in the standalone JavaScript.
 
-The MIT provenance for `@dashevo/evo-sdk` and `@dashevo/wasm-sdk` is based explicitly on `dashpay/platform` v4.1.1 at commit `69b85c81af8e000e8506edaa13406d1f6274af5a` and that repository's root `LICENSE.md`. The published npm package manifests and tarballs omit license metadata, so the upstream tagged source is the authoritative license reference for these two packages.
+The MIT provenance for `@dashevo/evo-sdk` and `@dashevo/wasm-sdk` is based explicitly on `dashpay/platform` v5.0.3 at commit `5e9aff1c4835299773095494a7a1c53506d5b0f9` and that repository's root `LICENSE.md`. The published npm package manifests and tarballs omit license metadata, so the upstream tagged source is the authoritative license reference for these two packages.
 
 All four Dash Community Edition headers embed the official “Dash D Circle” SVG from the [Dash Brand Guidelines](https://www.dash.org/brand-guidelines/), licensed CC BY 4.0. Their color and geometric treatment is based on the official [Dash BrandBook](https://www.figma.com/design/cCpB1W2IAmoEGXBbGqGsfD/Dash-BrandBook?node-id=219-108&p=f) and the palette recorded in the primary [Dash documentation](https://docs.dash.org/en/stable/docs/user/marketing.html). Multi-Chain Edition headers do not display the Dash-only mark. Use of the mark and palette identifies the Dash-only Community Edition and does not imply endorsement.
 
@@ -75,11 +69,13 @@ These packages are not imported by production source except esbuild/TypeScript d
 | `@dashincubator/secp256k1` | 1.7.1-5       | `dashhive/secp256k1`   | MIT        | Dash verification dependency                                  |
 | `dashhd`                   | 3.3.3         | `dashhive/dashhd.js`   | MIT        | Independent Dash Core cross-check                             |
 | `dashkeys`                 | 1.1.5         | `dashhive/dashkeys.js` | MIT        | DashHD test closure                                           |
+| `pdf-lib`                  | 1.17.1        | `Hopding/pdf-lib`      | MIT        | Reading MnemoCode's PDF files in browser tests                |
+| `@pdf-lib/upng`            | 1.0.1         | `Hopding/upng`         | MIT        | PNG decoding of MnemoCode cards in a browser test             |
 | `ethers`                   | 6.17.0        | `ethers-io/ethers.js`  | MIT        | Independent Ethereum cross-check                              |
 | `esbuild`                  | 0.28.2        | `evanw/esbuild`        | MIT        | Browser bundle and CSS minification                           |
 | `typescript`               | 7.0.2         | `microsoft/TypeScript` | Apache-2.0 | Static type checking                                          |
-| `vitest`                   | 5.0.0         | `vitest-dev/vitest`    | MIT        | JS/TS tests                                                   |
-| `playwright`               | 1.63.0        | `microsoft/playwright` | Apache-2.0 | Chromium/Firefox standalone-file and browser-regression tests |
+| `vitest`                   | 5.0.5         | `vitest-dev/vitest`    | MIT        | JS/TS tests                                                   |
+| `playwright`               | 1.64.1        | `microsoft/playwright` | Apache-2.0 | Chromium/Firefox standalone-file and browser-regression tests |
 
 ## Complete locked Rust metadata closure
 
@@ -88,31 +84,29 @@ The following is the complete Cargo metadata package set of the WASM modules; th
 ### MIT OR Apache-2.0 family
 
 ```text
-allocator-api2 0.2.21           equivalent 1.0.2
 aead 0.5.2                      aes 0.8.4
 arrayvec 0.7.8                  atomic-polyfill 1.0.3
 autocfg 1.5.1                   base16ct 0.2.0
 bls12_381 0.8.0                 bumpalo 3.20.3
-cbc 0.1.2                       cfg-if 1.0.4
+cbc 0.1.2                       cfg-if 1.0.5
 chacha20 0.9.1                  chacha20poly1305 0.10.1
 cipher 0.4.4                    cobs 0.3.0
 corez 0.1.1                     cpufeatures 0.2.17
 critical-section 1.2.0          crypto-common 0.1.7
 dash-shielded-wasm 0.1.5
 recovery-codex32-wasm 0.1.5
-recovery-sskr-wasm 0.1.5
+recovery-sskr-wasm 0.1.9
 recovery-envelope-wasm 0.1.5
 document-features 0.2.12
-either 1.18.0                   embedded-io 0.4.0
+either 1.19.0                   embedded-io 0.4.0
 embedded-io 0.6.1               ff 0.13.1
 fpe 0.6.1                       frost-core 3.0.0
 frost-rerandomized 3.0.0        group 0.13.0
 halo2_poseidon 0.1.0            hash32 0.2.1
-hashbrown 0.15.5
 heapless 0.7.17                 hex 0.4.3
 incrementalmerkletree 0.8.2     inout 0.1.4
 itertools 0.14.0                jubjub 0.10.0
-lazy_static 1.5.0               libc 0.2.189
+lazy_static 1.5.1               libc 0.2.190
 litrs 1.0.0                     lock_api 0.4.14
 memuse 0.2.2                    num-bigint 0.4.8
 num-integer 0.1.47              num-traits 0.2.19
@@ -128,13 +122,13 @@ serde 1.0.229                   serde_core 1.0.229
 serde_derive 1.0.229            serdect 0.2.0
 sinsemilla 0.1.0               stable_deref_trait 1.2.1
 static_assertions 1.1.0         syn 2.0.119
-syn 3.0.4 / 3.0.5               thiserror 2.0.20
-thiserror-impl 2.0.20           typenum 1.20.1
+syn 3.0.6                       thiserror 2.0.21
+thiserror-impl 2.0.21           typenum 1.20.1
 universal-hash 0.5.1            version_check 0.9.5
 wasm-bindgen 0.2.129            wasm-bindgen-macro 0.2.129
 wasm-bindgen-macro-support 0.2.129
 wasm-bindgen-shared 0.2.129     zcash_note_encryption 0.4.1
-zcash_spec 0.2.1                zeroize 1.9.0
+zcash_spec 0.2.1                zeroize 1.9.1
 zeroize_derive 1.5.0            zip32 0.2.1
 itoa 1.0.18                     serde_json 1.0.151
 ```
@@ -159,9 +153,8 @@ byteorder 1.5.0                                               Unlicense OR MIT
 memchr 2.8.3                                                  Unlicense OR MIT
 codex32 0.1.0                                                CC0-1.0
 constant_time_eq 0.4.2                                        CC0-1.0 OR MIT-0 OR Apache-2.0
-foldhash 0.1.5                                                 Zlib
 subtle 2.6.1                                                  BSD-3-Clause
-unicode-ident 1.0.24                                          (MIT OR Apache-2.0) AND Unicode-3.0
+unicode-ident 1.0.26                                          (MIT OR Apache-2.0) AND Unicode-3.0
 visibility 0.1.1                                             Zlib OR MIT OR Apache-2.0
 wasi 0.11.1+wasi-snapshot-preview1                           Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
 ```
@@ -182,8 +175,8 @@ bc-rand 0.5.0                                    BSD-2-Clause-Patent
 bc-shamir 0.13.0                                 BSD-2-Clause-Patent
 bc-tags 0.12.0                                   BSD-2-Clause-Patent
 bc-ur 0.19.2                                     BSD-2-Clause-Patent
-bitcoin-consensus-encoding 1.2.0                 CC0-1.0
-bitcoin-internals 0.6.0                          CC0-1.0
+bitcoin-consensus-encoding 1.3.0                 CC0-1.0
+bitcoin-internals 0.7.0                          CC0-1.0
 bitcoin-io 0.1.101                               CC0-1.0
 bitcoin-private 0.1.0                            CC0-1.0
 bitcoin_hashes 0.12.0                            CC0-1.0
@@ -191,7 +184,7 @@ bitcoin_hashes 0.14.101                          CC0-1.0
 blake2 0.10.6                                    MIT OR Apache-2.0
 block-buffer 0.10.4                              MIT OR Apache-2.0
 bytes 1.12.1                                     MIT
-cc 1.4.6                                         MIT OR Apache-2.0
+cc 1.6.0                                         MIT OR Apache-2.0
 chrono 0.4.45                                    MIT OR Apache-2.0
 const-oid 0.9.6                                  Apache-2.0 OR MIT
 core-foundation-sys 0.8.7                        MIT OR Apache-2.0
@@ -208,7 +201,7 @@ displaydoc 0.2.7                                 MIT OR Apache-2.0
 ed25519 2.2.3                                    Apache-2.0 OR MIT
 ed25519-dalek 2.2.0                              BSD-3-Clause
 fiat-crypto 0.2.9                                MIT OR Apache-2.0 OR BSD-1-Clause
-find-msvc-tools 0.1.12                           MIT OR Apache-2.0
+find-msvc-tools 0.1.14                           MIT OR Apache-2.0
 form_urlencoded 1.2.2                            MIT OR Apache-2.0
 futures-core 0.3.34                              MIT OR Apache-2.0
 futures-task 0.3.34                              MIT OR Apache-2.0
@@ -252,7 +245,6 @@ r-efi 5.3.0                                      MIT OR Apache-2.0 OR LGPL-2.1-o
 rand 0.9.5                                       MIT OR Apache-2.0
 rand_chacha 0.9.0                                MIT OR Apache-2.0
 rand_core 0.9.5                                  MIT OR Apache-2.0
-rand_core 0.9.5                                  MIT OR Apache-2.0
 rand_xoshiro 0.6.0                               MIT OR Apache-2.0
 rand_xoshiro 0.7.0                               MIT OR Apache-2.0
 salsa20 0.10.2                                   MIT OR Apache-2.0
@@ -263,13 +255,13 @@ serde_json 1.0.151                               MIT OR Apache-2.0
 sha2 0.10.9                                      MIT OR Apache-2.0
 shlex 2.0.1                                      MIT OR Apache-2.0
 signature 2.2.0                                  Apache-2.0 OR MIT
-siphasher 1.0.3                                  MIT/Apache-2.0
+siphasher 1.0.4                                  MIT OR Apache-2.0
 slab 0.4.12                                      MIT
-smallvec 1.16.1                                  MIT OR Apache-2.0
+smallvec 1.16.2                                  MIT OR Apache-2.0
 spki 0.7.3                                       Apache-2.0 OR MIT
 sskr 0.12.0                                      BSD-2-Clause-Patent
 syn 1.0.109                                      MIT OR Apache-2.0
-syn 3.0.5                                        MIT OR Apache-2.0
+syn 3.0.6                                        MIT OR Apache-2.0
 synstructure 0.14.0                              MIT
 tinystr 0.8.4                                    Unicode-3.0
 tinyvec 1.13.3                                   Zlib OR Apache-2.0 OR MIT
@@ -288,12 +280,12 @@ wit-bindgen 0.57.1                               Apache-2.0 WITH LLVM-exception 
 writeable 0.6.4                                  Unicode-3.0
 x25519-dalek 2.0.1                               BSD-3-Clause
 yoke 0.8.3                                       Unicode-3.0
-yoke-derive 0.8.3                                Unicode-3.0
-zerocopy 0.8.57                                  BSD-2-Clause OR Apache-2.0 OR MIT
-zerocopy-derive 0.8.57                           BSD-2-Clause OR Apache-2.0 OR MIT
+yoke-derive 0.8.4                                Unicode-3.0
+zerocopy 0.8.62                                  BSD-2-Clause OR Apache-2.0 OR MIT
+zerocopy-derive 0.8.59                           BSD-2-Clause OR Apache-2.0 OR MIT
 zerofrom 0.1.8                                   Unicode-3.0
 zerofrom-derive 0.1.8                            Unicode-3.0
-zeroize 1.9.0                                    Apache-2.0 OR MIT
+zeroize 1.9.1                                    Apache-2.0 OR MIT
 zerotrie 0.2.5                                   Unicode-3.0
 zerovec 0.11.8                                   Unicode-3.0
 zerovec-derive 0.11.6                            Unicode-3.0
@@ -304,12 +296,12 @@ zerovec-derive 0.11.6                            Unicode-3.0
 The executable versions of the Deriver compile exactly the crates of `apps/key-derivation/launcher/Cargo.lock`, all licensed MIT OR Apache-2.0:
 
 ```text
-block-buffer 0.12.1             cfg-if 1.0.4                  cpufeatures 0.3.1
+block-buffer 0.12.1             cfg-if 1.0.5                  cpufeatures 0.3.1
 crypto-common 0.2.2             digest 0.11.3                 hybrid-array 0.4.15
-libc 0.2.189                    sha2 0.11.0                   typenum 1.20.1
+libc 0.2.190                    sha2 0.11.0                   typenum 1.20.1
 ```
 
-Each executable also contains the standard library of Rust 1.98.1, licensed MIT OR Apache-2.0. The Linux and Windows executables are linked in `Dockerfile.launchers` with the GNU toolchains of its pinned Ubuntu snapshot (`gcc-aarch64-linux-gnu`, MinGW-w64 `gcc-mingw-w64-x86-64`), the macOS executables with Apple's toolchain on the release runner.
+Each executable also contains the standard library of Rust 1.99.0, licensed MIT OR Apache-2.0; its notices are released as `Rust-library-NOTICE.html`. The Linux and Windows executables are linked in `Dockerfile.launchers` with the GNU toolchains of its pinned Ubuntu snapshot (`gcc-aarch64-linux-gnu`, MinGW-w64 `gcc-mingw-w64-x86-64`), the macOS executables with Apple's toolchain on the release runner.
 
 ## Reproduced notices for Recovery and QR components
 
@@ -369,6 +361,23 @@ TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ```
 
+### MnemoCode SSKR engine
+
+The SSKR WebAssembly (`recovery-sskr-wasm`, MnemoCode's SSKR engine) also links code whose licences ask for their texts: libsecp256k1, the C library that `secp256k1-sys` compiles, `ur` and `phf` under MIT, the `dalek` crates and `subtle` under BSD-3-Clause, and `minicbor` under BlueOak-1.0.0. The licence texts of every crate it links, with their copyright lines, are in `packages/recovery-sskr-wasm/LINKED_LICENSES.txt`, released as `MnemoCode-SSKR-LINKED_LICENSES.txt`. MnemoCode's `scripts/sskr-licenses.mjs` writes that file from the crates' own sources, and the MnemoCode intake brings it with the engine.
+
+### Licence texts of the linked Rust crates
+
+MIT, the BSD licences and Blue Oak ask for their copyright and permission texts to travel with the binary. `tooling/linked-licenses.mjs` writes the licence texts of every crate that each of this project's Rust products links, read from the crates' own sources: the crates that `cargo metadata` gives for the product's targets through normal dependencies, procedural macros left out. Of a crate offered under several licences, MIT is taken where it is one of them; a crate under CC0-1.0 is only listed. Four crates were published without their licence files (`blake2b_simd`, `frost-core`, `frost-rerandomized`, `halo2_poseidon`); their texts are kept in `tooling/linked-license-texts/` as they are at the commit each package was published from.
+
+- Gordian Envelope WebAssembly: `packages/recovery-envelope-wasm/LINKED_LICENSES.txt`, released as `recovery-envelope-wasm-LINKED_LICENSES.txt`.
+- Codex32 WebAssembly: `packages/recovery-codex32-wasm/LINKED_LICENSES.txt`, released as `recovery-codex32-wasm-LINKED_LICENSES.txt`.
+- Dash Shielded WebAssembly: `packages/dash-shielded-wasm/LINKED_LICENSES.txt`, released as `dash-shielded-wasm-LINKED_LICENSES.txt`.
+- Executable Key Derivation Tool, for the crates of its five platforms: `apps/key-derivation/launcher/LINKED_LICENSES.txt`, released as `key-derivation-launcher-LINKED_LICENSES.txt`.
+
+Each of these products, and the MHFE, MnemoCode and SSKR WebAssembly too, also links the Rust standard library of Rust 1.99.1. Its own notices, which the toolchain writes for binaries that link it, are kept byte for byte as `notices/rust-1.99.1-library-NOTICE.html`, released as `Rust-library-NOTICE.html`.
+
+`pnpm check` refuses a file written from another `Cargo.lock`, or a library notice of another Rust; `pnpm check:licenses` writes every file again offline and compares it. The MHFE WebAssembly's crates are in `MHFE-THIRD_PARTY_NOTICES.md`, MnemoCode's in `MnemoCode-THIRD_PARTY_NOTICES.md` and the SSKR engine's in `MnemoCode-SSKR-LINKED_LICENSES.txt`.
+
 ### MIT notices
 
 The following Recovery and QR sources are distributed or adapted under the MIT License. The common MIT terms below apply to every listed copyright notice:
@@ -381,9 +390,11 @@ Copyright (c) 2021 SeedSigner
 SeedSigner — SeedQR specification and vectors
 
 Copyright (c) 2026 Sergei Semenov
-MHFE 0.4.0 — browser package (client, worker, Rust core WebAssembly)
-(its Emscripten, musl and wasm-bindgen notices and the licences of the Rust crates in its core are in
-`packages/recovery-mhfe-wasm/notices/THIRD_PARTY_NOTICES.md`)
+MHFE 0.7.0 — browser package (runtime, worker, WebAssembly and module classes)
+(its Emscripten, musl and wasm-bindgen notices, the licences of the Rust crates in its WebAssembly, and
+the EFF large wordlist by the Electronic Frontier Foundation, CC BY 4.0, built into that WebAssembly,
+are in `packages/recovery-mhfe-wasm/notices/THIRD_PARTY_NOTICES.md`, released as
+`MHFE-THIRD_PARTY_NOTICES.md`)
 
 Copyright (c) Project Nayuki
 Copyright (c) 2023 Anthony Fu <https://github.com/antfu>
@@ -420,14 +431,15 @@ SOFTWARE.
 - `package.json` uses exact dependency versions; pnpm's lockfile pins the npm closure and integrity hashes.
 - `Cargo.toml` uses exact registry versions and one exact audited Orchard tag; `Cargo.lock` pins all transitive versions and git commits.
 - Every supported build validates SHA-512 integrity entries for the complete pnpm package closure, SHA-256 checksums for every crates.io package, and full commit pins for Cargo git sources before compiling.
-- Exact GitHub revisions are recorded for Orchard, note encryption, rust-codex32, the SLIP-39 reference, SeedSigner SeedQR, MHFE 0.4.0, Blockchain Commons SSKR, Gordian Envelope, and bc-components. If GitHub is reachable, a differing revision fails the build. If it is unavailable, the build prints a conspicuous warning while the mandatory local/package-manager hash checks still apply. The registry-published `blahaj` source is bound by its Cargo SHA-256 checksum.
-- The verification record also carries SHA-256 hashes for the local SeedQR, MnemoCode, MHFE, SLIP-39, Codex32, SSKR, Gordian Seed Envelope, QR rendering, and QR decoding sources. The six vendored MHFE package files are additionally checked against fixed SHA-256 values before every supported build. The package's Argon2 builds contain the reference C implementation of Argon2 (`P-H-C/phc-winner-argon2`, commit `f57e61e19229e23c4445b85494dbf7c07de721cb`), which is dual licensed CC0-1.0 or Apache-2.0; MHFE uses it under Apache-2.0, whose text is in `packages/recovery-mhfe-wasm/LICENSE-ARGON2`.
+- Exact GitHub revisions are recorded for Orchard, note encryption, rust-codex32, the SLIP-39 reference, SeedSigner SeedQR, MHFE 0.7.0, Blockchain Commons SSKR, Gordian Envelope, and bc-components. If GitHub is reachable, a differing revision fails the build. If it is unavailable, the build prints a conspicuous warning while the mandatory local/package-manager hash checks still apply. The registry-published `blahaj` source is bound by its Cargo SHA-256 checksum.
+- The verification record also carries SHA-256 hashes for the local SeedQR, MnemoCode, MHFE, SLIP-39, Codex32, SSKR, Gordian Seed Envelope, QR rendering, and QR decoding sources. The vendored MHFE package files are checked against the package's `modules.json`, whose own SHA-256 is pinned, before every supported build. The package's Argon2 builds contain the reference C implementation of Argon2 (`P-H-C/phc-winner-argon2`, commit `f57e61e19229e23c4445b85494dbf7c07de721cb`), which is dual licensed CC0-1.0 or Apache-2.0; MHFE uses it under Apache-2.0, whose text is in `packages/recovery-mhfe-wasm/LICENSE-ARGON2`, released as `MHFE-LICENSE-ARGON2`.
 - `apps/key-derivation/src/index.html` contains a human-readable embedded production-dependency notice so the standalone artifact retains provenance when copied alone.
 - `apps/activity-viewer/src/index.html` identifies its embedded Evo SDK/Orchard versions and online security boundary; the current Bitcoin, Ethereum, and Dash runtime providers are documented in its application README and the root security audit.
 - `apps/discovery-scanner/src/index.html` identifies its embedded Evo SDK/Orchard versions and mnemonic-bearing online boundary; its current Bitcoin, Ethereum, and Dash providers are documented in its application README and the root security audit.
 - `apps/psbt-inspector/src/index.html` identifies its embedded BitcoinerLab Miniscript compiler/analyzer and Scure BTC Signer MuSig2 inspection dependency. The pinned dependency remains unmodified; the standalone esbuild bundle may tree-shake signing APIs that this inspect/derive-only application does not import.
+- Every flat release carries the MHFE and MnemoCode licence and notice files this report names, byte for byte and under the release names given with them, next to this file. `tooling/release-legal-documents.mjs` lists them, and the release scripts check each copy against its package file.
 - Original project code is licensed under MIT as declared in the root `LICENSE` and `package.json`. Third-party components retain the licenses and notices listed above.
 
-## MnemoCode card font and artwork
+## MnemoCode
 
-The `mnemocode-cards` feature embeds the DejaVu Sans font and the card artwork from MnemoCode, vendored under `packages/recovery-mnemocode/source/assets/`. The font notice is `assets/fonts/DejaVuSans-NOTICE`; the MnemoCode `LICENSE` and `NOTICE` are stored next to the sources. The world map on collection sheets is drawn from public-domain Natural Earth land polygons; its notice is `assets/maps/NOTICE`.
+MnemoCode reaches the pages as its own WebAssembly, one file for each page, vendored under `packages/recovery-mnemocode-wasm/generated/`. The Key Derivation Tool's file embeds the DejaVu Sans font subset, the Natural Earth world map and the card artwork that MnemoCode draws its cards and sheets with, and the number, name and colour of DMC's threads for its cross-stitch patterns, from `makebead/craft-color-codes` under CC BY 4.0. MnemoCode is licensed MIT OR Apache-2.0, at the recipient's option, and so is its SSKR engine's own code: its licence texts are `packages/recovery-mnemocode-wasm/LICENSE-MIT` and `packages/recovery-mnemocode-wasm/LICENSE-APACHE`, released as `MnemoCode-LICENSE-MIT` and `MnemoCode-LICENSE-APACHE`, and its notice is `packages/recovery-mnemocode-wasm/NOTICE`, released as `MnemoCode-NOTICE`. Its third-party notices, `packages/recovery-mnemocode-wasm/THIRD_PARTY_NOTICES.md`, released as `MnemoCode-THIRD_PARTY_NOTICES.md`, give the font's licence, the origin of the map and of the twelve card images with the SHA-256 of each image, the attribution of the DMC thread colours, and the licence texts of every Rust crate the WebAssembly links.

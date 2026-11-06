@@ -1,5 +1,9 @@
 # Dash Community Wallet Tools
 
+[![Release](https://github.com/hobby-eng/dash-wallet-tools/actions/workflows/release.yml/badge.svg?branch=main)](https://github.com/hobby-eng/dash-wallet-tools/actions/workflows/release.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue)](https://github.com/hobby-eng/dash-wallet-tools/blob/main/LICENSE)
+[![Build provenance: GitHub attestations](https://img.shields.io/badge/build%20provenance-GitHub%20attestations-2ea44f)](https://github.com/hobby-eng/dash-wallet-tools/attestations)
+
 **Current canonical source version: 0.1.5** (source metadata date: 2026-10-01). This documentation describes the current code, not necessarily the latest published HTML release. Download published files from [Dash releases](https://github.com/hobby-eng/dash-wallet-tools/releases).
 
 Dash Community Edition contains four standalone HTML tools for Dash. Open downloaded files in a current browser; no installation or server is required. Application code lives in [multi-chain-wallet-tools](https://github.com/hobby-eng/multi-chain-wallet-tools), and this repository distributes the Dash releases.
@@ -21,8 +25,8 @@ The Deriver's **Recover & Back Up** tab lets you prepare backups offline:
 - **Gordian Seed Envelope** encrypts a backup container. Configure alternative access through a password, recipient private key, or enough SSKR cards. You can also include the BIP39 passphrase, placing both wallet secrets in one backup. A key derived from the same phrase cannot recover the backup if that phrase is lost.
 - **Codex32** stores a checksummed phrase backup or a BIP32 master-seed backup, optionally split into shares. Master-seed mode cannot restore the original words or passphrase. Encoding alone is not encryption.
 - **SeedQR** encodes the phrase as a QR code for offline transfer or printing. It does not encrypt the secret.
-- **MnemoCode 0.1.0** converts the phrase between words, indexes, mapped Unicode and color representations, with Direct and Seedshift compatibility modes. Dates are not stored in MNC1 records, and the output is not encryption.
-- **MHFE** converts a standard English BIP39 phrase into an experimental memory-hard encrypted 24-word container. It supports optional PIM, a check of every new container, QR transfer, cancellation, and recovery-verifier reporting. Opened as a file, the page runs MHFE on one thread; the tool's MHFE panel shows the mode and how long an operation takes. Read the [MHFE specification](https://github.com/hobby-eng/mhfe-spec) before use.
+- **MnemoCode 0.1.0** converts the phrase between words, indexes, mapped Unicode and color representations, with Direct and Seedshift compatibility modes. Dates are not stored in MNC1 records, and the output is not encryption. Fingerprints shown with each record and each recovered phrase catch a miscopied code or a wrong date. Forgotten words, date digits and Shamir share elements are searched locally; this edition recognises the wallet by its master fingerprint only.
+- **MHFE** converts a standard English BIP39 phrase into an experimental memory-hard encrypted container: 24 words, or on request as long as a 12- to 21-word phrase. It supports optional PIM, a check of every new container, QR transfer, cancellation, and recovery-verifier reporting. The panel also rehearses a recovery without showing the phrase, draws new wallets, changes the password, opens hidden wallets, makes repair words and repairs a damaged plate, makes passwords, and runs the self-test when you ask. Opened as a file, the page runs MHFE on one thread; the tool's MHFE panel shows the mode and how long an operation takes. Read the [MHFE specification](https://github.com/hobby-eng/mhfe-spec) before use.
 
 Each backup card or record can have a QR code saved as PNG. Restore tabs read QR image files offline, avoiding manual transcription. Treat each QR image like the secret it contains. SLIP-39 and standalone SSKR preserve phrase entropy; keep its separate BIP39 passphrase safe too.
 
@@ -30,7 +34,7 @@ The original phrase or a BIP85 child phrase can be used directly in the backup t
 
 ## Modular builds
 
-Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/3fdb1fdfdb4611397f14317e1307b9897671a806/docs/BUILD_MODULES.md).
+Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/3f22b11f09fbe2097a586842379d8460f0e80d09/docs/BUILD_MODULES.md).
 
 The available modules below are generated from the actual build configuration:
 
@@ -49,7 +53,7 @@ Download the release files into one directory and run:
 sha256sum -c SHA256SUMS
 ```
 
-Release bundles include `verification-record.json`, `LICENSE`, `ATTRIBUTION.md`, and `THIRD_PARTY_NOTICES.md`. Verify GitHub build-provenance attestations with:
+Release bundles include `verification-record.json`, `LICENSE`, `ATTRIBUTION.md`, `THIRD_PARTY_NOTICES.md`, and the MHFE and MnemoCode licence and notice files it names (`MHFE-THIRD_PARTY_NOTICES.md`, `MHFE-LICENSE-ARGON2`, `MnemoCode-LICENSE-MIT`, `MnemoCode-LICENSE-APACHE`, `MnemoCode-NOTICE`, `MnemoCode-SSKR-LINKED_LICENSES.txt`, `MnemoCode-DejaVuSans-NOTICE`, `MnemoCode-NaturalEarth-NOTICE` and `MnemoCode-CardArtwork-NOTICE`), the licence texts of the Rust crates linked into each WebAssembly module and executable (`*-LINKED_LICENSES.txt`), and the Rust standard library's notices (`Rust-library-NOTICE.html`). Verify GitHub build-provenance attestations on the computer that downloaded the file, because it needs the network:
 
 ```sh
 gh attestation verify Dash_Community_Key_Derivation_Tool.html -R hobby-eng/dash-wallet-tools
@@ -59,6 +63,8 @@ gh attestation verify Dash_Community_Key_Derivation_Tool.html -R hobby-eng/dash-
 
 Use a trusted offline device for the Deriver and Inspector. The Viewer is connected and accepts public/watch-only inputs. The Scanner is connected, but secret derivation runs in a network-disabled isolated vault and sends public lookups to the network worker. A compromised browser or operating system can still steal secrets. See [SECURITY.md](https://github.com/hobby-eng/dash-wallet-tools/blob/main/SECURITY.md).
 
+**Do not use the Discovery Scanner for mass scanning.** It asks free public services (DashScan, Dash Platform Explorer and Dash Platform nodes) about every address it checks. These services limit how many requests one IP address may send. Too many requests can get your IP address slowed down, temporarily blocked, or banned, and the scan then ends with incomplete results. The Scanner checks one seed phrase at a time by default (up to five in Batch mode), runs at most five lookups at once (lower this under **Parallel network requests**), and asks about up to 100 addresses in one lookup. It retries a failed Platform proof query after 0.4 and then 0.8 seconds, but otherwise does not pause or slow down by itself. For many candidates, use 1 or 2 parallel requests, smaller batches, and breaks between them.
+
 This is an independent hobby project, not an official Dash product. Ready-made open-source cryptographic libraries do not establish the safety of their integration. See [attribution](https://github.com/hobby-eng/dash-wallet-tools/blob/main/ATTRIBUTION.md) and [third-party licenses](https://github.com/hobby-eng/dash-wallet-tools/blob/main/THIRD_PARTY_NOTICES.md).
 
 ## Releases and documentation updates
@@ -67,4 +73,4 @@ After a stable release is published in the canonical repository, **Build and pub
 
 **Sync canonical documentation** automatically refreshes these documents every hour from canonical `main`; it can also be run manually. It updates documentation only and does not publish HTML or change existing releases. Edit the templates and notices in the canonical repository, rather than editing generated copies here.
 
-Documentation source: [3fdb1fdfdb4611397f14317e1307b9897671a806](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/3fdb1fdfdb4611397f14317e1307b9897671a806). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
+Documentation source: [3f22b11f09fbe2097a586842379d8460f0e80d09](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/3f22b11f09fbe2097a586842379d8460f0e80d09). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
