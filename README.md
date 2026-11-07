@@ -34,7 +34,7 @@ The original phrase or a BIP85 child phrase can be used directly in the backup t
 
 ## Modular builds
 
-Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/3f22b11f09fbe2097a586842379d8460f0e80d09/docs/BUILD_MODULES.md).
+Version 0.1.5 introduced a major modular refactoring. Build from the canonical source with `--profile dash-community`; use `--features` and `--exclude` to select optional modules. The Dash edition contains only Dash support. See [build choices and commands](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/63d23ff5505cbbf5526c7a4029dc587caaa3c72b/docs/BUILD_MODULES.md).
 
 The available modules below are generated from the actual build configuration:
 
@@ -42,7 +42,7 @@ The available modules below are generated from the actual build configuration:
 | --- | --- |
 | Dash Community Edition — Wallet Activity Viewer | Base coin support |
 | Dash Community Edition — Wallet Discovery Scanner | `seed-discovery`, `watch-only-discovery`, `wallet-matcher`, `custom-paths` |
-| Dash Community Edition — Wallet Key Derivation Tool | `derive`, `bip85`, `bip38-encrypt`, `message-signing`, `wallet-matcher`, `seedqr`, `mnemocode`, `mnemocode-cards`, `mhfe`, `slip39`, `codex32`, `sskr`, `gordian-envelope` |
+| Dash Community Edition — Wallet Key Derivation Tool | `derive`, `bip85`, `bip38-encrypt`, `message-signing`, `wallet-matcher`, `multisig`, `seedqr`, `mnemocode`, `mnemocode-cards`, `mhfe`, `slip39`, `codex32`, `sskr`, `gordian-envelope` |
 | Dash Community Edition — PSBT & Multisig Inspector | `psbt-decoder`, `script-decoder`, `descriptor-decoder`, `policy-builder`, `multisig-wallet`, `message-verification`, `bip38-decrypt` |
 
 ## Verify a download
@@ -73,4 +73,4 @@ After a stable release is published in the canonical repository, **Build and pub
 
 **Sync canonical documentation** automatically refreshes these documents every hour from canonical `main`; it can also be run manually. It updates documentation only and does not publish HTML or change existing releases. Edit the templates and notices in the canonical repository, rather than editing generated copies here.
 
-Documentation source: [3f22b11f09fbe2097a586842379d8460f0e80d09](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/3f22b11f09fbe2097a586842379d8460f0e80d09). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
+Documentation source: [63d23ff5505cbbf5526c7a4029dc587caaa3c72b](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/63d23ff5505cbbf5526c7a4029dc587caaa3c72b). The machine-readable origin and file hashes are recorded in [documentation-source.json](https://github.com/hobby-eng/dash-wallet-tools/blob/main/documentation-source.json).
