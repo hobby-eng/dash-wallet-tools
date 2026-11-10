@@ -2,13 +2,13 @@
 
 Initial provenance review: 2026-09-08, using exact package manifests, `pnpm-lock.yaml`, `Cargo.lock`, and locked Cargo metadata. Direct JavaScript versions were reconciled with the current manifest again on 2026-09-12; this does not renew the upstream source or license review. This is dependency provenance information, not legal advice. The upstream license files remain authoritative.
 
-Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/b473b5fc2da5d448fee8279b5cfd6bc6782519de/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
+Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/a50071e808c76075d2e632b10d8562fcf498d685/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
 
 ## JavaScript production dependencies
 
 | Package                    | Exact version | Source repository                            | License           | Purpose                                                                                                                           |
 | -------------------------- | ------------- | -------------------------------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `@bitcoinerlab/miniscript` | 2.0.0         | `bitcoinerlab/miniscript`                    | MIT               | Local Bitcoin Miniscript parsing, safety analysis, and Script ASM compilation                                                     |
+| `@bitcoinerlab/miniscript` | 2.0.1         | `bitcoinerlab/miniscript`                    | MIT               | Local Bitcoin Miniscript parsing, safety analysis, and Script ASM compilation                                                     |
 | `bip68`                    | 1.0.4         | `bitcoinjs/bip68`                            | ISC               | Relative-locktime handling used by the Miniscript analyzer                                                                        |
 | `@scure/btc-signer`        | 2.4.1         | `paulmillr/scure-btc-signer`                 | MIT               | Local BIP-327 MuSig2 key aggregation, BIP-328 derivation, Taproot output construction, and BIP-373 field definitions              |
 | `btcutil-js`               | 0.4.1         | `guggero/btcutil-js`                         | MIT               | Offline BIP-322 legacy/simple/full/proof-of-funds verification using a btcd-derived Bitcoin Script engine compiled to WebAssembly |
@@ -74,8 +74,8 @@ These packages are not imported by production source except esbuild/TypeScript d
 | `ethers`                   | 6.17.0        | `ethers-io/ethers.js`  | MIT        | Independent Ethereum cross-check                              |
 | `esbuild`                  | 0.28.2        | `evanw/esbuild`        | MIT        | Browser bundle and CSS minification                           |
 | `typescript`               | 7.0.2         | `microsoft/TypeScript` | Apache-2.0 | Static type checking                                          |
-| `vitest`                   | 5.0.5         | `vitest-dev/vitest`    | MIT        | JS/TS tests                                                   |
-| `playwright`               | 1.64.1        | `microsoft/playwright` | Apache-2.0 | Chromium/Firefox standalone-file and browser-regression tests |
+| `vitest`                   | 5.1.0         | `vitest-dev/vitest`    | MIT        | JS/TS tests                                                   |
+| `playwright`               | 1.65.0        | `microsoft/playwright` | Apache-2.0 | Chromium/Firefox standalone-file and browser-regression tests |
 
 ## Complete locked Rust metadata closure
 
@@ -390,7 +390,7 @@ Copyright (c) 2021 SeedSigner
 SeedSigner — SeedQR specification and vectors
 
 Copyright (c) 2026 Sergei Semenov
-MHFE 0.7.0 — browser package (runtime, worker, WebAssembly and module classes)
+MHFE 0.8.0 — browser package (runtime, worker, WebAssembly and module classes)
 (its Emscripten, musl and wasm-bindgen notices, the licences of the Rust crates in its WebAssembly, and
 the EFF large wordlist by the Electronic Frontier Foundation, CC BY 4.0, built into that WebAssembly,
 are in `packages/recovery-mhfe-wasm/notices/THIRD_PARTY_NOTICES.md`, released as
@@ -431,7 +431,7 @@ SOFTWARE.
 - `package.json` uses exact dependency versions; pnpm's lockfile pins the npm closure and integrity hashes.
 - `Cargo.toml` uses exact registry versions and one exact audited Orchard tag; `Cargo.lock` pins all transitive versions and git commits.
 - Every supported build validates SHA-512 integrity entries for the complete pnpm package closure, SHA-256 checksums for every crates.io package, and full commit pins for Cargo git sources before compiling.
-- Exact GitHub revisions are recorded for Orchard, note encryption, rust-codex32, the SLIP-39 reference, SeedSigner SeedQR, MHFE 0.7.0, Blockchain Commons SSKR, Gordian Envelope, and bc-components. If GitHub is reachable, a differing revision fails the build. If it is unavailable, the build prints a conspicuous warning while the mandatory local/package-manager hash checks still apply. The registry-published `blahaj` source is bound by its Cargo SHA-256 checksum.
+- Exact GitHub revisions are recorded for Orchard, note encryption, rust-codex32, the SLIP-39 reference, SeedSigner SeedQR, MHFE 0.8.0, Blockchain Commons SSKR, Gordian Envelope, and bc-components. If GitHub is reachable, a differing revision fails the build. If it is unavailable, the build prints a conspicuous warning while the mandatory local/package-manager hash checks still apply. The registry-published `blahaj` source is bound by its Cargo SHA-256 checksum.
 - The verification record also carries SHA-256 hashes for the local SeedQR, MnemoCode, MHFE, SLIP-39, Codex32, SSKR, Gordian Seed Envelope, QR rendering, and QR decoding sources. The vendored MHFE package files are checked against the package's `modules.json`, whose own SHA-256 is pinned, before every supported build. The package's Argon2 builds contain the reference C implementation of Argon2 (`P-H-C/phc-winner-argon2`, commit `f57e61e19229e23c4445b85494dbf7c07de721cb`), which is dual licensed CC0-1.0 or Apache-2.0; MHFE uses it under Apache-2.0, whose text is in `packages/recovery-mhfe-wasm/LICENSE-ARGON2`, released as `MHFE-LICENSE-ARGON2`.
 - `apps/key-derivation/src/index.html` contains a human-readable embedded production-dependency notice so the standalone artifact retains provenance when copied alone.
 - `apps/activity-viewer/src/index.html` identifies its embedded Evo SDK/Orchard versions and online security boundary; the current Bitcoin, Ethereum, and Dash runtime providers are documented in its application README and the root security audit.
@@ -440,6 +440,10 @@ SOFTWARE.
 - Every flat release carries the MHFE and MnemoCode licence and notice files this report names, byte for byte and under the release names given with them, next to this file. `tooling/release-legal-documents.mjs` lists them, and the release scripts check each copy against its package file.
 - Original project code is licensed under MIT as declared in the root `LICENSE` and `package.json`. Third-party components retain the licenses and notices listed above.
 
+## Unicode data
+
+The Deriver's NFKD tables (`packages/crypto-core/src/unicode-nfkd-data.ts`), embedded in every page that derives a BIP39 seed, are generated from the Unicode Character Database 18.0.0 (`UnicodeData.txt`); the unit test reads Unicode 18.0.0's `NormalizationTest.txt`. Both files are kept, compressed, in `test/fixtures/unicode18/`. © 2026 Unicode®, Inc., distributed under the Unicode License v3: https://www.unicode.org/license.txt.
+
 ## MnemoCode
 
-MnemoCode reaches the pages as its own WebAssembly, one file for each page, vendored under `packages/recovery-mnemocode-wasm/generated/`. The Key Derivation Tool's file embeds the DejaVu Sans font subset, the Natural Earth world map and the card artwork that MnemoCode draws its cards and sheets with, and the number, name and colour of DMC's threads for its cross-stitch patterns, from `makebead/craft-color-codes` under CC BY 4.0. MnemoCode is licensed MIT OR Apache-2.0, at the recipient's option, and so is its SSKR engine's own code: its licence texts are `packages/recovery-mnemocode-wasm/LICENSE-MIT` and `packages/recovery-mnemocode-wasm/LICENSE-APACHE`, released as `MnemoCode-LICENSE-MIT` and `MnemoCode-LICENSE-APACHE`, and its notice is `packages/recovery-mnemocode-wasm/NOTICE`, released as `MnemoCode-NOTICE`. Its third-party notices, `packages/recovery-mnemocode-wasm/THIRD_PARTY_NOTICES.md`, released as `MnemoCode-THIRD_PARTY_NOTICES.md`, give the font's licence, the origin of the map and of the twelve card images with the SHA-256 of each image, the attribution of the DMC thread colours, and the licence texts of every Rust crate the WebAssembly links.
+MnemoCode reaches the pages as its own WebAssembly, one file for each page, vendored under `packages/recovery-mnemocode-wasm/generated/`. The Key Derivation Tool's file embeds the DejaVu Sans font subset, the Natural Earth world map and the card artwork that MnemoCode draws its cards and sheets with, and the number, name and colour of DMC's threads for its cross-stitch patterns, from `makebead/craft-color-codes` under CC BY 4.0. Its steganography links RustCrypto's Argon2 and ChaCha20, `roxmltree` and `strsim`, and keeps the MPEG Huffman and scalefactor tables of minimp3 (CC0 1.0). MnemoCode is licensed MIT OR Apache-2.0, at the recipient's option, and so is its SSKR engine's own code: its licence texts are `packages/recovery-mnemocode-wasm/LICENSE-MIT` and `packages/recovery-mnemocode-wasm/LICENSE-APACHE`, released as `MnemoCode-LICENSE-MIT` and `MnemoCode-LICENSE-APACHE`, and its notice is `packages/recovery-mnemocode-wasm/NOTICE`, released as `MnemoCode-NOTICE`. Its third-party notices, `packages/recovery-mnemocode-wasm/THIRD_PARTY_NOTICES.md`, released as `MnemoCode-THIRD_PARTY_NOTICES.md`, give the font's licence, the origin of the map and of the twelve card images with the SHA-256 of each image, the attribution of the DMC thread colours, and the licence texts of every Rust crate the WebAssembly links.

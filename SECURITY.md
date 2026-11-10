@@ -2,7 +2,7 @@
 
 These boundaries describe canonical source version **0.1.5**. Verify the version of the HTML you actually downloaded in its Release passport.
 
-Report vulnerabilities privately through this repository's GitHub security-advisory interface. Never include real recovery phrases, passphrases, private keys, viewing keys, or private wallet exports.
+Report bugs and suspected vulnerabilities through [GitHub Issues](https://github.com/hobby-eng/dash-wallet-tools/issues). Reports are visible to everyone who can access the repository. Use public test vectors or synthetic data and include the affected version, reproduction steps, expected result and actual result. Never include real recovery phrases, passphrases, private keys, viewing keys, or private wallet exports.
 
 ## Tool boundaries
 
@@ -27,6 +27,6 @@ The **executable Key Derivation Tool** carries the same Deriver page inside a sm
 
 These controls isolate trusted secret-processing code from the network-capable realm. They cannot guarantee protection from a compromised browser/OS or deliberately malicious code inside the vault, and cannot guarantee erasure of JavaScript strings or browser memory copies.
 
-Checksums detect altered downloads; they do not prove cryptographic correctness. Clipboard history, screenshots, browser extensions, swap, and crash dumps remain outside the tools' isolation boundaries. See the [canonical security model](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/b473b5fc2da5d448fee8279b5cfd6bc6782519de/SECURITY_AUDIT.md).
+Checksums detect altered downloads; they do not prove cryptographic correctness. Clipboard history, screenshots, browser extensions, swap, and crash dumps remain outside the tools' isolation boundaries. See the [canonical security model](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/a50071e808c76075d2e632b10d8562fcf498d685/SECURITY_AUDIT.md).
 
-This file is generated from canonical documentation source [b473b5fc2da5d448fee8279b5cfd6bc6782519de](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/b473b5fc2da5d448fee8279b5cfd6bc6782519de). Update its template in the canonical repository.
+This file is generated from canonical documentation source [a50071e808c76075d2e632b10d8562fcf498d685](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/a50071e808c76075d2e632b10d8562fcf498d685). Update its template in the canonical repository.
