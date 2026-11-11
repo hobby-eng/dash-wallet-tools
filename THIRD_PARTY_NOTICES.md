@@ -2,7 +2,7 @@
 
 Initial provenance review: 2026-09-08, using exact package manifests, `pnpm-lock.yaml`, `Cargo.lock`, and locked Cargo metadata. Direct JavaScript versions were reconciled with the current manifest again on 2026-09-12; this does not renew the upstream source or license review. This is dependency provenance information, not legal advice. The upstream license files remain authoritative.
 
-Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/356c9283417579b4e4066863adefbe2cc9a1359a/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
+Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/a53ac9b30d32e0653b2af939a9a009e108072675/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
 
 ## JavaScript production dependencies
 
@@ -301,7 +301,7 @@ crypto-common 0.2.2             digest 0.11.3                 hybrid-array 0.4.1
 libc 0.2.190                    sha2 0.11.0                   typenum 1.20.1
 ```
 
-Each executable also contains the standard library of Rust 1.99.0, licensed MIT OR Apache-2.0; its notices are released as `Rust-library-NOTICE.html`. The Linux and Windows executables are linked in `Dockerfile.launchers` with the GNU toolchains of its pinned Ubuntu snapshot (`gcc-aarch64-linux-gnu`, MinGW-w64 `gcc-mingw-w64-x86-64`), the macOS executables with Apple's toolchain on the release runner.
+Each executable also contains the Rust standard library of the pinned toolchain, licensed MIT OR Apache-2.0; its version is given under [the licence texts of the linked Rust crates](#licence-texts-of-the-linked-rust-crates) below, and its notices are released as `Rust-library-NOTICE.html`. The Linux and Windows executables are linked in `Dockerfile.launchers` with the GNU toolchains of its pinned Ubuntu snapshot (`gcc-aarch64-linux-gnu`, MinGW-w64 `gcc-mingw-w64-x86-64`), the macOS executables with Apple's toolchain on the release runner.
 
 ## Reproduced notices for Recovery and QR components
 
