@@ -1,12 +1,12 @@
 {
   "sourceRepository": "https://github.com/hobby-eng/multi-chain-wallet-tools",
-  "sourceCommit": "2b676e2295be1e34b4b44c62a3779b809aa19758",
+  "sourceCommit": "2477c5cd21a97296e32db266d7fc726ccb721ebc",
   "sourceVersion": "0.1.5",
   "files": {
-    "README.md": "c552d6d807ce7ec887d426a2d97571610d6a71719b9b9e3638fac602a293767c",
-    "SECURITY.md": "a551700b33fa26ba49e0fb499d0c05ee141f3a4c4c926f4a16a4154a3f1be5d9",
-    "ATTRIBUTION.md": "9fe2e1656b9b7782026445fbcc144e29cb509bc6ac35dde61250c83d4cd35801",
-    "THIRD_PARTY_NOTICES.md": "c8b0b75bc3514249a1afa35610fef7aec6cd0d8a4a245f2b1bc6e27db1fbed10",
+    "README.md": "560a0ada32441c4224bd5a4eb16e8e01d77f5e71bba8b07696a2d34c97b708d7",
+    "SECURITY.md": "dd5d6b225e7e0f5df4a70fb00710752599cc689a11828b83b88cbd39d6b1ca2a",
+    "ATTRIBUTION.md": "5ad8d6a16b494871e3388464a7d4dd892e041bccef35b2a7e78d62b877bbf2b0",
+    "THIRD_PARTY_NOTICES.md": "392d31a8c7eb4532ed36be5d99d8dc586fec8e8eed685ad83159d936b4d23b3a",
     "LICENSE": "caf27edda9f161c05080b929367e2b039351b717fc67657884c2e5d5e7ed6e39"
   }
 }
