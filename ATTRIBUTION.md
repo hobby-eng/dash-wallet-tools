@@ -2,7 +2,7 @@
 
 These utilities are an independent integration project. They are not an official Dash product, are not maintained by Dash Core Group or the Dash Platform maintainers, and no endorsement by those projects or contributors is implied.
 
-Original integration code in this repository is released under the [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/083a26f5088428aacb57c7c7e50b2c932abddb30/LICENSE), copyright (c) 2026 hobby-eng. That license does not replace or relicense embedded and linked third-party work; each upstream component retains the license identified in its own distribution and in this repository's notices.
+Original integration code in this repository is released under the [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/8acde636aa1878ff2a3134290f44f067bd883354/LICENSE), copyright (c) 2026 hobby-eng. That license does not replace or relicense embedded and linked third-party work; each upstream component retains the license identified in its own distribution and in this repository's notices.
 
 Dash Platform and Dash Orchard functionality relies on open-source work authored and maintained by their respective upstream contributors:
 
@@ -17,7 +17,7 @@ Dash Platform and Dash Orchard functionality relies on open-source work authored
 
 This repository's code integrates those components for key derivation, activity inspection, wallet discovery, and offline PSBT, Script, descriptor, and multisig-policy inspection. Upstream names identify technical provenance; they do not transfer authorship of upstream code to this project.
 
-Exact pinned versions, commits, package integrity values, transitive dependencies, copyright notices and license identifiers are recorded in [THIRD_PARTY_NOTICES.md](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/083a26f5088428aacb57c7c7e50b2c932abddb30/THIRD_PARTY_NOTICES.md), [Dash implementation reference](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/083a26f5088428aacb57c7c7e50b2c932abddb30/docs/reference/DASH_IMPLEMENTATION.md), the lockfiles and the Release passport embedded in each standalone artifact.
+Exact pinned versions, commits, package integrity values, transitive dependencies, copyright notices and license identifiers are recorded in [THIRD_PARTY_NOTICES.md](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/8acde636aa1878ff2a3134290f44f067bd883354/THIRD_PARTY_NOTICES.md), [Dash implementation reference](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/8acde636aa1878ff2a3134290f44f067bd883354/docs/reference/DASH_IMPLEMENTATION.md), the lockfiles and the Release passport embedded in each standalone artifact.
 
 - **SLIP-39 reference implementation and wordlist** — recovery encoding logic and official vectors adapted from Trezor's MIT-licensed [`python-shamir-mnemonic`](https://github.com/trezor/python-shamir-mnemonic).
 - **Codex32 / BIP93** — checksum and GF(32) interpolation use Andrew Poelstra's CC0 [`rust-codex32`](https://github.com/apoelstra/rust-codex32) reference implementation and official BIP93 vectors.
@@ -26,5 +26,6 @@ Exact pinned versions, commits, package integrity values, transitive dependencie
 - **uqr** — offline QR matrix encoding uses the MIT-licensed [`unjs/uqr`](https://github.com/unjs/uqr) module.
 - **Ian Coleman BIP39** — the Seed Diagnostic entropy-detail presentation (word indexes, binary groups, and checksum breakdown) is adapted conceptually from the MIT-licensed [`iancoleman/bip39`](https://github.com/iancoleman/bip39); all BIP39 validation and entropy conversion remain delegated to the pinned `@scure/bip39` implementation.
 - **SeedSigner SeedQR** — Standard SeedQR and CompactSeedQR formats and public test vectors: [github.com/SeedSigner/seedsigner](https://github.com/SeedSigner/seedsigner), MIT licensed.
+- **Zcash test vectors** — the unit tests of the Sapling keys (ZIP-32) and unified encodings (ZIP-316) use the published vectors of [`zcash/zcash-test-vectors`](https://github.com/zcash/zcash-test-vectors), Copyright (c) 2018-2021 The Electric Coin Company, MIT or Apache-2.0 licensed (used under MIT); five of its files are kept in `test/fixtures/zcash-test-vectors/`.
 - **MHFE** — the experimental Memory-Hard Feistel Encryption specification and browser WASM implementation are maintained by this project's author in [`hobby-eng/mhfe-spec`](https://github.com/hobby-eng/mhfe-spec) and [`hobby-eng/mhfe`](https://github.com/hobby-eng/mhfe). The embedded 0.6.0 browser package is MIT licensed and pinned by source revision and file SHA-256; its Argon2 builds compile the reference C implementation of Argon2 (`P-H-C/phc-winner-argon2`, Apache-2.0 as chosen by MHFE).
 - **Paul Miller QR** — zero-dependency offline QR image decoder used for local recovery imports: [github.com/paulmillr/qr](https://github.com/paulmillr/qr), MIT OR Apache-2.0 licensed.

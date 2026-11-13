@@ -2,7 +2,7 @@
 
 Initial provenance review: 2026-09-08, using exact package manifests, `pnpm-lock.yaml`, `Cargo.lock`, and locked Cargo metadata. Direct JavaScript versions were reconciled with the current manifest again on 2026-09-12; this does not renew the upstream source or license review. This is dependency provenance information, not legal advice. The upstream license files remain authoritative.
 
-Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/083a26f5088428aacb57c7c7e50b2c932abddb30/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
+Original project code is licensed under the repository's [MIT License](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/8acde636aa1878ff2a3134290f44f067bd883354/LICENSE), copyright (c) 2026 hobby-eng. The tables below describe separately licensed third-party components and do not transfer their authorship or trademarks to this project.
 
 ## JavaScript production dependencies
 
@@ -380,7 +380,7 @@ Each of these products, and the MHFE, MnemoCode and SSKR WebAssembly too, also l
 
 ### MIT notices
 
-The following Recovery and QR sources are distributed or adapted under the MIT License. The common MIT terms below apply to every listed copyright notice:
+The following Recovery and QR sources, and the Zcash test vectors that the unit tests read, are distributed or adapted under the MIT License. The common MIT terms below apply to every listed copyright notice:
 
 ```text
 Copyright 2019 SatoshiLabs
@@ -402,6 +402,10 @@ uqr — QR encoder
 
 Copyright (c) 2023 Paul Miller (https://paulmillr.com)
 qr — QR decoder; distributed here under its MIT option
+
+Copyright (c) 2018-2021 The Electric Coin Company
+zcash-test-vectors — ZIP-32 and ZIP-316 test vectors (test/fixtures/zcash-test-vectors, and values
+in the Sapling unit tests); used here under its MIT option
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -443,6 +447,10 @@ SOFTWARE.
 ## Unicode data
 
 The Deriver's NFKD tables (`packages/crypto-core/src/unicode-nfkd-data.ts`), embedded in every page that derives a BIP39 seed, are generated from the Unicode Character Database 18.0.0 (`UnicodeData.txt`); the unit test reads Unicode 18.0.0's `NormalizationTest.txt`. Both files are kept, compressed, in `test/fixtures/unicode18/`. © 2026 Unicode®, Inc., distributed under the Unicode License v3: https://www.unicode.org/license.txt.
+
+## Zcash test vectors
+
+The unit tests of Zcash's Sapling keys and unified encodings (`packages/coin-protocols/tests/zip32-sapling.test.ts`, `zcash-unified.test.ts`) use the published vectors of `zcash/zcash-test-vectors` at commit `78321beacb0e0477e33cd002b56585a107c2708c`; five of its files are kept byte for byte in `test/fixtures/zcash-test-vectors/`. They are test data only and are part of no artifact. Copyright (c) 2018-2021 The Electric Coin Company, under the MIT license or the Apache License 2.0; used here under the MIT license (MIT notices above).
 
 ## MnemoCode
 

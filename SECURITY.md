@@ -27,6 +27,6 @@ The **executable Key Derivation Tool** carries the same Deriver page inside a sm
 
 These controls isolate trusted secret-processing code from the network-capable realm. They cannot guarantee protection from a compromised browser/OS or deliberately malicious code inside the vault, and cannot guarantee erasure of JavaScript strings or browser memory copies.
 
-Checksums detect altered downloads; they do not prove cryptographic correctness. Clipboard history, screenshots, browser extensions, swap, and crash dumps remain outside the tools' isolation boundaries. See the [canonical security model](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/083a26f5088428aacb57c7c7e50b2c932abddb30/SECURITY_AUDIT.md).
+Checksums detect altered downloads; they do not prove cryptographic correctness. Clipboard history, screenshots, browser extensions, swap, and crash dumps remain outside the tools' isolation boundaries. See the [canonical security model](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/8acde636aa1878ff2a3134290f44f067bd883354/SECURITY_AUDIT.md).
 
-This file is generated from canonical documentation source [083a26f5088428aacb57c7c7e50b2c932abddb30](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/083a26f5088428aacb57c7c7e50b2c932abddb30). Update its template in the canonical repository.
+This file is generated from canonical documentation source [8acde636aa1878ff2a3134290f44f067bd883354](https://github.com/hobby-eng/multi-chain-wallet-tools/blob/8acde636aa1878ff2a3134290f44f067bd883354). Update its template in the canonical repository.
